@@ -1,0 +1,8 @@
+{
+  "1.0.0": {
+    "en": "Initial version introducing a condition card for monitoring zone inactivity"
+  },
+  "1.0.1": {
+    "en": "Fixed an issue that caused incorrect determination of the zone activity state"
+  }
+}

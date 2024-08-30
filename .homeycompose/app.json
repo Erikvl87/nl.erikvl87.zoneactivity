@@ -1,0 +1,58 @@
+{
+  "id": "nl.erikvl87.zoneactivity",
+  "version": "1.0.1",
+  "support": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity",
+  "bugs": {
+    "url": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity/issues"
+  },
+  "source": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Zone Activity"
+  },
+  "description": {
+    "en": "Enhance your Homey flows by adding conditions based on zone (in)activity.",
+    "nl": "Verbeter je Homey flows door condities toe te voegen op basis van zone (in)activiteit."
+  },
+  "tags": {
+    "en": [
+      "zone",
+      "activity",
+      "presence",
+      "condition"
+    ],
+    "nl": [
+      "zone",
+      "activiteit",
+      "aanwezigheid",
+      "conditie"
+    ]
+  },
+  "brandColor": "#32CD32",
+  "category": [
+    "security"
+  ],
+  "permissions": [
+    "homey:manager:api"
+  ],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Erik van Leeuwen",
+    "email": "homey@erikvl87.nl"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "erikvl87"
+      }
+    }
+  }
+}
