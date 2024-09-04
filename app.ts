@@ -4,7 +4,6 @@ import getIconForZone from './utils/getIconForZone';
 import getPathForZone from './utils/getPathForZone';
 
 class ZoneActivity extends Homey.App {
-
 	/**
 	 * The Homey Web API.
 	 * @see https://athombv.github.io/node-homey-api/HomeyAPIV3Local.html
@@ -39,7 +38,7 @@ class ZoneActivity extends Homey.App {
 					throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
 				const now = new Date();
-				var isInactive = zone.activeLastUpdated === null ? true
+				const isInactive = zone.activeLastUpdated === null ? true
 					: zone.active ? false : (now.getTime() - new Date(zone.activeLastUpdated).getTime()) >= args.minutes * 60 * 1000;
 
 				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone });
