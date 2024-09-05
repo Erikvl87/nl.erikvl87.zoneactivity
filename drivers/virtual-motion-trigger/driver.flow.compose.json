@@ -1,0 +1,93 @@
+{
+	"actions": [
+		{
+			"id": "turn-on-alarm",
+			"title": {
+				"en": "Turn on the alarm",
+				"nl": "Alarm inschakelen"
+			},
+			"hint": {
+				"en": "Activates the alarm of this device. This causes the zone to become active.",
+				"nl": "Activeert het alarm van dit apparaat. Hierdoor wordt de zone actief."
+			}
+		},
+		{
+			"id": "turn-on-alarm-temporarily",
+			"title": {
+				"en": "Turn on the alarm temporarily",
+				"nl": "Alarm tijdelijk inschakelen"
+			},
+			"titleFormatted": {
+				"en": "Turn on the alarm temporarily for [[seconds]] seconds",
+				"nl": "Schakel het alarm tijdelijk in voor [[seconds]] seconden"
+			},
+			"hint": {
+				"en": "Activates the alarm of this device for a specific amount of time. This causes the zone to become active for the specified time.",
+				"nl": "Activeert het alarm van dit apparaat voor een specifieke hoeveelheid tijd. Hierdoor wordt de zone gedurende de opgegeven tijd actief."
+			},
+			"args": [
+				{
+					"name": "seconds",
+					"type": "number",
+					"title": {
+						"en": "seconds",
+						"nl": "seconden"
+					},
+					"min": 1,
+					"step": 1
+				}
+			]
+		},
+		{
+			"id": "turn-off-alarm",
+			"title": {
+				"en": "Turn off the alarm",
+				"nl": "Alarm uitschakelen"
+			},
+			"hint": {
+				"en": "Deactivates the alarm of this device. This causes the zone to become inactive.",
+				"nl": "Deactiveert het alarm van dit apparaat. Hierdoor wordt de zone inactief."
+			}
+		},
+		{
+			"id": "turn-off-alarm-delayed",
+			"title": {
+				"en": "Turn off the alarm with a delay",
+				"nl": "Alarm uitschakelen met vertraging"
+			},
+			"titleFormatted": {
+				"en": "Turn off the alarm after [[seconds]] seconds",
+				"nl": "Schakel het alarm uit na [[seconds]] seconden"
+			},
+			"hint": {
+				"en": "Deactivates the alarm of this device with a delay. This causes the zone to become inactive.",
+				"nl": "Deactiveert het alarm van dit apparaat met vertraging. Hierdoor wordt de zone inactief."
+			},
+			"args": [
+				{
+					"name": "seconds",
+					"type": "number",
+					"title": {
+						"en": "seconds",
+						"nl": "seconden"
+					},
+					"min": 1,
+					"step": 1
+				}
+			]
+		}
+	],
+	"triggers": [
+		{
+			"id": "alarm-changed",
+			"title": {
+				"en": "Alarm changed",
+				"nl": "Alarm gewijzigd"
+			},
+			"hint": {
+				"en": "When the alarm state changes",
+				"nl": "Wanneer de alarmstatus wijzigt"
+			}
+		}
+	]
+}

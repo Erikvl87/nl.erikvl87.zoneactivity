@@ -4,5 +4,8 @@
   },
   "1.0.1": {
     "en": "Fixed an issue that caused incorrect determination of the zone activity state"
+  },
+  "1.1.0": {
+    "en": "Introduced the Virtual Motion Trigger device"
   }
 }

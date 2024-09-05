@@ -1,1 +1,3 @@
 With Zone Activity, you can automate your home to respond intelligently to (in)activity in different areas, improving security, energy efficiency, and convenience. Whether it's turning off lights in empty rooms or receiving alerts for unexpected activity, this app helps you make your home smarter and more responsive to your needs.
+
+Additionally, Zone Activity features the Virtual Motion Trigger device, which indirectly controls a zone's activity state. This device integrates with Homey zones, which monitor sensor devices like the Virtual Motion Trigger. By using this device, you can effectively influence whether a zone is considered active or inactive based on your flows.

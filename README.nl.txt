@@ -1,1 +1,3 @@
 Met Zone Activity kun je je huis automatiseren om intelligent te reageren op (in)activiteit in verschillende ruimtes, wat de veiligheid, energie-efficiëntie en het comfort verbetert. Of het nu gaat om het uitschakelen van lichten in lege kamers of het ontvangen van meldingen voor onverwachte activiteit, deze app helpt je om je huis slimmer en beter afgestemd op je behoeften te maken.
+
+Daarnaast biedt Zone Activity het Virtual Motion Trigger-apparaat, dat indirect de activiteitstoestand van een zone beheert. Dit virtuele apparaat integreert met Homey-zones, die sensorapparaten zoals de Virtual Motion Trigger monitoren. Door dit apparaat te gebruiken, kun je effectief beïnvloeden of een zone als actief of inactief wordt beschouwd, afhankelijk van je flows.

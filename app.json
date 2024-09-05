@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "nl.erikvl87.zoneactivity",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "support": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity",
   "bugs": {
     "url": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity/issues"
@@ -89,6 +89,189 @@
         ],
         "id": "zone-inactive-for-minutes"
       }
+    ],
+    "triggers": [
+      {
+        "id": "alarm-changed",
+        "title": {
+          "en": "Alarm changed",
+          "nl": "Alarm gewijzigd"
+        },
+        "hint": {
+          "en": "When the alarm state changes",
+          "nl": "Wanneer de alarmstatus wijzigt"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=virtual-motion-trigger"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "turn-on-alarm",
+        "title": {
+          "en": "Turn on the alarm",
+          "nl": "Alarm inschakelen"
+        },
+        "hint": {
+          "en": "Activates the alarm of this device. This causes the zone to become active.",
+          "nl": "Activeert het alarm van dit apparaat. Hierdoor wordt de zone actief."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=virtual-motion-trigger"
+          }
+        ]
+      },
+      {
+        "id": "turn-on-alarm-temporarily",
+        "title": {
+          "en": "Turn on the alarm temporarily",
+          "nl": "Alarm tijdelijk inschakelen"
+        },
+        "titleFormatted": {
+          "en": "Turn on the alarm temporarily for [[seconds]] seconds",
+          "nl": "Schakel het alarm tijdelijk in voor [[seconds]] seconden"
+        },
+        "hint": {
+          "en": "Activates the alarm of this device for a specific amount of time. This causes the zone to become active for the specified time.",
+          "nl": "Activeert het alarm van dit apparaat voor een specifieke hoeveelheid tijd. Hierdoor wordt de zone gedurende de opgegeven tijd actief."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=virtual-motion-trigger"
+          },
+          {
+            "name": "seconds",
+            "type": "number",
+            "title": {
+              "en": "seconds",
+              "nl": "seconden"
+            },
+            "min": 1,
+            "step": 1
+          }
+        ]
+      },
+      {
+        "id": "turn-off-alarm",
+        "title": {
+          "en": "Turn off the alarm",
+          "nl": "Alarm uitschakelen"
+        },
+        "hint": {
+          "en": "Deactivates the alarm of this device. This causes the zone to become inactive.",
+          "nl": "Deactiveert het alarm van dit apparaat. Hierdoor wordt de zone inactief."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=virtual-motion-trigger"
+          }
+        ]
+      },
+      {
+        "id": "turn-off-alarm-delayed",
+        "title": {
+          "en": "Turn off the alarm with a delay",
+          "nl": "Alarm uitschakelen met vertraging"
+        },
+        "titleFormatted": {
+          "en": "Turn off the alarm after [[seconds]] seconds",
+          "nl": "Schakel het alarm uit na [[seconds]] seconden"
+        },
+        "hint": {
+          "en": "Deactivates the alarm of this device with a delay. This causes the zone to become inactive.",
+          "nl": "Deactiveert het alarm van dit apparaat met vertraging. Hierdoor wordt de zone inactief."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=virtual-motion-trigger"
+          },
+          {
+            "name": "seconds",
+            "type": "number",
+            "title": {
+              "en": "seconds",
+              "nl": "seconden"
+            },
+            "min": 1,
+            "step": 1
+          }
+        ]
+      }
     ]
-  }
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Virtual motion trigger"
+      },
+      "class": "sensor",
+      "platforms": [
+        "local"
+      ],
+      "images": {
+        "small": "/drivers/virtual-motion-trigger/assets/images/small.png",
+        "large": "/drivers/virtual-motion-trigger/assets/images/large.png"
+      },
+      "connectivity": [],
+      "capabilities": [
+        "onoff",
+        "alarm_motion",
+        "button.turn_on_motion_alarm",
+        "button.turn_off_motion_alarm"
+      ],
+      "capabilitiesOptions": {
+        "button.turn_on_motion_alarm": {
+          "maintenanceAction": true,
+          "title": {
+            "en": "Turn on motion alarm",
+            "nl": "Bewegingsalarm inschakelen"
+          },
+          "desc": {
+            "en": "Turn on the alarm manually.",
+            "nl": "Schakel het alarm handmatig in."
+          }
+        },
+        "button.turn_off_motion_alarm": {
+          "maintenanceAction": true,
+          "title": {
+            "en": "Turn off motion alarm",
+            "nl": "Bewegingsalarm uitschakelen"
+          },
+          "desc": {
+            "en": "Turn off the alarm manually.",
+            "nl": "Schakel het alarm handmatig uit."
+          }
+        }
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "virtual-motion-trigger",
+      "settings": []
+    }
+  ]
 }

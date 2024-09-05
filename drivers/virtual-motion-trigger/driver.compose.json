@@ -1,0 +1,57 @@
+{
+	"name": {
+		"en": "Virtual motion trigger"
+	},
+	"class": "sensor",
+	"platforms": [
+		"local"
+	],
+	"images": {
+		"small": "{{driverAssetsPath}}/images/small.png",
+		"large": "{{driverAssetsPath}}/images/large.png"
+	},
+	"connectivity": [],
+	"capabilities": [
+		"onoff",
+		"alarm_motion",
+		"button.turn_on_motion_alarm",
+		"button.turn_off_motion_alarm"
+	],
+	"capabilitiesOptions": {
+		"button.turn_on_motion_alarm": {
+			"maintenanceAction": true,
+			"title": {
+				"en": "Turn on motion alarm",
+				"nl": "Bewegingsalarm inschakelen"
+			},
+			"desc": {
+				"en": "Turn on the alarm manually.",
+				"nl": "Schakel het alarm handmatig in."
+			}
+		},
+		"button.turn_off_motion_alarm": {
+			"maintenanceAction": true,
+			"title": {
+				"en": "Turn off motion alarm",
+				"nl": "Bewegingsalarm uitschakelen"
+			},
+			"desc": {
+				"en": "Turn off the alarm manually.",
+				"nl": "Schakel het alarm handmatig uit."
+			}
+		}
+	},
+	"pair": [
+		{
+			"id": "list_devices",
+			"template": "list_devices",
+			"navigation": {
+				"next": "add_devices"
+			}
+		},
+		{
+			"id": "add_devices",
+			"template": "add_devices"
+		}
+	]
+}
