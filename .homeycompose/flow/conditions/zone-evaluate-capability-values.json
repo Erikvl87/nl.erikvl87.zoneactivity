@@ -1,0 +1,84 @@
+{
+	"title": {
+		"en": "Any sensor capability in the zone has a value that meets the condition",
+		"nl": "Een sensor met een bepaalde mogelijkheid in de zone heeft een waarde die voldoet aan de voorwaarde"
+	},
+	"titleFormatted": {
+		"en": "A sensor with [[capability]] capabilities in zone [[zone]] ([[includeDescendants]]) !{{has|does not have}} a value that [[operation]] [[value]]",
+		"nl": "Een sensor met [[capability]] mogelijkheden in zone [[zone]] ([[includeDescendants]]) !{{heeft|heeft niet}} een waarde die [[operation]] [[value]]"
+	},
+	"hint": {
+		"en": "Evaluates the value of a sensor capability in a specific zone. This card will generate an error if no sensors with the given capability are present in the zone.",
+		"nl": "Evalueert de waarde van een sensor mogelijkheid in een specifieke zone. Deze kaart genereert een fout als er geen sensoren met de gegeven mogelijkheid in de zone aanwezig zijn."
+	},
+	"args": [
+		{
+			"type": "autocomplete",
+			"name": "zone",
+			"placeholder": {
+				"en": "zone"
+			}
+		},
+		{
+			"type": "dropdown",
+			"name": "includeDescendants",
+			"values": [
+				{
+					"id": "0",
+					"title": {
+						"en": "excluding descendant zones",
+						"nl": "exclusief onderliggende zones"
+					}
+				},
+				{
+					"id": "1",
+					"title": {
+						"en": "including descendant zones",
+						"nl": "inclusief onderliggende zones"
+					}
+				}
+			]
+		},
+		{
+			"type": "autocomplete",
+			"name": "capability",
+			"placeholder": {
+				"en": "sensor"
+			}
+		},
+		{
+			"type": "dropdown",
+			"name": "operation",
+			"values": [
+				{
+					"id": "equals",
+					"label": {
+						"en": "equals",
+						"nl": "gelijk is aan"
+					}
+				},
+				{
+					"id": "is-greater-than",
+					"label": {
+						"en": "is greater than",
+						"nl": "groter is dan"
+					}
+				},
+				{
+					"id": "is-less-than",
+					"label": {
+						"en": "is less than",
+						"nl": "kleiner is dan"
+					}
+				}
+			]
+		},
+		{
+			"type": "number",
+			"name": "value",
+			"placeholder": {
+				"en": "1"
+			}
+		}
+	]
+}

@@ -26,5 +26,24 @@
 	"vacuumcleaner": "Stofzuiger",
 	"vibration": "Trillingssensor",
 	"washer": "Wasmachine",
-	"windowcoverings": "Raambekleding"
-  }
+	"windowcoverings": "Raambekleding",
+	"any_sensor": "Elke sensor",
+	"measure_battery": "Batterij",
+	"measure_co": "CO",
+	"measure_co2": "CO2",
+	"measure_current": "Stroom",
+	"measure_dust": "Stof",
+	"measure_humidity": "Luchtvochtigheid",
+	"measure_luminance": "Lichtsterkte",
+	"measure_noise": "Geluid",
+	"measure_pm25": "Fijnstof (PM2,5)",
+	"measure_power": "Vermogen",
+	"measure_pressure": "Luchtdruk",
+	"measure_rain": "Regen",
+	"measure_temperature": "Temperatuur",
+	"measure_ultraviolet": "UV",
+	"measure_voltage": "Voltage",
+	"measure_water": "Water",
+	"measure_wind_angle": "Windrichting",
+	"measure_wind_strength": "Windkracht"
+}

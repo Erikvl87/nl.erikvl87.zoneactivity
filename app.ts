@@ -2,6 +2,7 @@ import Homey, { FlowCard } from 'homey';
 import { HomeyAPI, ExtendedHomeyAPIV3Local } from 'homey-api';
 import Zones from './lib/Zones';
 import { DeviceClassManager } from './lib/DeviceClassManager';
+import { SensorCapabilitiesManager } from './lib/SensorCapabilitiesManager';
 import getAutocompleteResultsForZone from './utils/getAutocompleteResultsForZone';
 
 class ZoneActivity extends Homey.App {
@@ -31,6 +32,7 @@ class ZoneActivity extends Homey.App {
 	 * @returns {Promise<void>} A promise that resolves when the listener has been registered.
 	 */
 	async registerRunListeners(): Promise<void> {
+		// zone-inactive-for-minutes
 		try {
 			const conditionCard = this.homey.flow.getConditionCard('zone-inactive-for-minutes');
 			conditionCard.registerRunListener(async (args, _state) => {
@@ -49,6 +51,7 @@ class ZoneActivity extends Homey.App {
 			this.log('Error registering run listener:', error);
 		}
 
+		// zone-any-device-turned-on
 		try {
 			const conditionCard = this.homey.flow.getConditionCard('zone-any-device-turned-on');
 			conditionCard.registerRunListener(async (args, _state) => {
@@ -59,27 +62,89 @@ class ZoneActivity extends Homey.App {
 				if (zone == null)
 					throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
-				const zonesToCheck = [ zone ];
-				if(args.includeDescendants === "1")
+				const zonesToCheck = [zone];
+				if (args.includeDescendants === "1")
 					zonesToCheck.push(...zones.getAllChildren(zone.id));
 
 				const allDevices = await this.homeyApi.devices.getDevices();
-				const devicesToCheck = Object.values(allDevices).filter(device => 
+				const devicesToCheck = Object.values(allDevices).filter(device =>
 					zonesToCheck.some(zone => device.zone === zone.id) &&
 					(args.deviceType.id === 'any_type' || device.class === args.deviceType.id) &&
 					device.capabilities.includes('onoff') &&
-					device.capabilitiesObj['onoff']
+					device.capabilitiesObj['onoff'] !== null
 				);
 
-				this.log(`Checking ${devicesToCheck.length} devices in zone '${zone.name}' with class '${args.deviceType.id}' with the onoff capability.`, { devicesToCheck: devicesToCheck.map(device => device.name)});
+				this.log(`Checking ${devicesToCheck.length} devices in zone '${zone.name}' with class '${args.deviceType.id}' with the onoff capability.`, { devicesToCheck: devicesToCheck.map(device => device.name) });
 
-				if(devicesToCheck.length === 0) {
+				if (devicesToCheck.length === 0) {
 					this.log(`No devices with class '${args.deviceType.id}' found in zone '${zone.name}'.`, { args, zone });
 					// Throwing this error will make sure that the flow card will not be triggered if there are no devices in the zone.
 					throw new Error(`No devices found in zone '${zone.name}' with class '${args.deviceType.id}'.`);
 				}
 
 				return devicesToCheck.some(device => device.capabilitiesObj['onoff'].value === true);
+			});
+		} catch (error) {
+			this.log('Error registering run listener:', error);
+		}
+
+		// zone-evaluate-capability-values
+		try {
+			const conditionCard = this.homey.flow.getConditionCard('zone-evaluate-capability-values');
+			conditionCard.registerRunListener(async (args, _state) => {
+				const capability = args.capability.id;
+				this.log(`Checking sensors in zone '${args.zone.id}' with capability '${capability}'.`);
+				const zones = new Zones(await this.homeyApi.zones.getZones());
+				const zone = zones.getZone(args.zone.id);
+
+				if (zone == null)
+					throw new Error(`Zone with id '${args.zone.id}' not found.`);
+
+				const zonesToCheck = [zone];
+				if (args.includeDescendants === "1")
+					zonesToCheck.push(...zones.getAllChildren(zone.id));
+
+				const allDevices = await this.homeyApi.devices.getDevices();
+				const devicesToCheck = Object.values(allDevices).filter(device =>
+					zonesToCheck.some(zone => device.zone === zone.id) &&
+					device.capabilities.includes(capability) &&
+					device.capabilitiesObj[capability] !== null &&
+					typeof device.capabilitiesObj[capability].value === 'number'
+				);
+
+				this.log(`Checking ${devicesToCheck.length} devices in zone '${zone.name}' with capability '${capability}'.`, { devicesToCheck: devicesToCheck.map(device => device.name) });
+
+				if (devicesToCheck.length === 0) {
+					this.log(`No devices with capability '${capability}' found in zone '${zone.name}'.`, { args, zone });
+					// Throwing this error will make sure that the flow card will not be triggered if there are no devices in the zone.
+					throw new Error(`No devices found in zone '${zone.name}' with capability '${capability}'.`);
+				}
+
+				const operation = args.operation;
+				const otherValue = args.value;
+				return devicesToCheck.some(device => {
+					const value = device.capabilitiesObj[capability].value as number;
+					switch (operation) {
+					case 'equals': {
+						const result = value === otherValue;
+						this.log(`Device '${device.name}' has value '${value}' for capability '${capability}' which is ${result ? 'equal' : 'not equal'} to '${otherValue}'.`, { device: device.name, args });
+						return result;
+					}
+					case 'is-greater-than': {
+						const result = value > otherValue;
+						this.log(`Device '${device.name}' has value '${value}' for capability '${capability}' which is ${result ? 'greater' : 'not greater'} than '${otherValue}'.`, { device: device.name, args });
+						return result;
+					}
+					case 'is-less-than': {
+						const result = value < otherValue;
+						this.log(`Device '${device.name}' has value '${value}' for capability '${capability}' which is ${result ? 'less' : 'not less'} than '${otherValue}'.`, { device: device.name, args });
+						return result;
+					}
+					default:
+						throw new Error(`Unknown operation '${operation}'.`);
+					}
+				});
+
 			});
 		} catch (error) {
 			this.log('Error registering run listener:', error);
@@ -101,9 +166,32 @@ class ZoneActivity extends Homey.App {
 				});
 			};
 
+			// zone-inactive-for-minutes
 			const cardZoneInactiveForMinutes = this.homey.flow.getConditionCard('zone-inactive-for-minutes');
-			const cardZoneDevicesTurnedOn = this.homey.flow.getConditionCard('zone-any-device-turned-on');
 			cardZoneInactiveForMinutes.registerArgumentAutocompleteListener('zone', handleZoneAutocomplete);
+
+			// zone-evaluate-capability-values
+			const cardZoneEvaluateSensorValues = this.homey.flow.getConditionCard('zone-evaluate-capability-values');
+			cardZoneEvaluateSensorValues.registerArgumentAutocompleteListener('zone', handleZoneAutocomplete);
+			cardZoneEvaluateSensorValues.registerArgumentAutocompleteListener('capability',
+				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
+					const deviceClasses = SensorCapabilitiesManager.getAllSensorCapabilities();
+
+					const results = [...Object.values(deviceClasses).map((capability) => {
+						return {
+							name: this.homey.__(capability.id) ?? capability.friendlyName,
+							id: capability.id,
+						};
+					})];
+
+					return results.filter((result) => {
+						return result.name.toLowerCase().includes(query.toLowerCase());
+					});
+				}
+			);
+
+			// zone-any-device-turned-on
+			const cardZoneDevicesTurnedOn = this.homey.flow.getConditionCard('zone-any-device-turned-on');
 			cardZoneDevicesTurnedOn.registerArgumentAutocompleteListener('zone', handleZoneAutocomplete);
 			cardZoneDevicesTurnedOn.registerArgumentAutocompleteListener('deviceType',
 				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {

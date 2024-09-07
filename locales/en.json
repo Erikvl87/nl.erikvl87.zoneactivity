@@ -26,5 +26,24 @@
 	"vacuumcleaner": "Vacuum Cleaner",
 	"vibration": "Vibration Sensor",
 	"washer": "Washer",
-	"windowcoverings": "Window Coverings"
-  }
+	"windowcoverings": "Window Coverings",
+	"any_sensor": "Any sensor",
+	"measure_battery": "Battery",
+	"measure_co": "CO",
+	"measure_co2": "CO2",
+	"measure_current": "Current",
+	"measure_dust": "Dust",
+	"measure_humidity": "Humidity",
+	"measure_luminance": "Luminance",
+	"measure_noise": "Noise",
+	"measure_pm25": "PM2.5",
+	"measure_power": "Power",
+	"measure_pressure": "Pressure",
+	"measure_rain": "Rain",
+	"measure_temperature": "Temperature",
+	"measure_ultraviolet": "UV",
+	"measure_voltage": "Voltage",
+	"measure_water": "Water",
+	"measure_wind_angle": "Wind Angle",
+	"measure_wind_strength": "Wind Strength"
+}
