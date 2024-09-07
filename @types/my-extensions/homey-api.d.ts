@@ -10,9 +10,27 @@ declare module 'homey-api' {
 		activeLastUpdated: string;
 	}
 
+	class CapabilitiesObject {
+		id: string;
+		type: string;
+		title: string;
+		value: unknown;
+	}
+
+	class ExtendedDevice extends HomeyAPIV3Local.ManagerDevices.Device {
+		class: string;
+		zone: string;
+		capabilities: string[];
+		capabilitiesObj: { [key: string]: CapabilitiesObject };
+	}
+
 	class ExtendedManagerZones extends HomeyAPIV3Local.ManagerZones {
 		getZones(): Promise<{ [key: string]: ExtendedZone; }>;
 		getZone(args: { id: string; }): Promise<ExtendedZone>;
+	}
+
+	class ExtendedManagerDevices extends HomeyAPIV3Local.ManagerDevices {
+		getDevices(): Promise<{ [key: string]: ExtendedDevice; }>;
 	}
 
 	export class ExtendedHomeyAPIV3Local extends HomeyAPIV3Local {
@@ -65,6 +83,6 @@ declare module 'homey-api' {
 		// zones: HomeyAPIV3Local.ManagerZones;
 		// zwave: HomeyAPIV3Local.ManagerZwave
 		zones: ExtendedManagerZones; // Overwrite the zones property with the ExtendedManagerZones class
-
+		devices: ExtendedManagerDevices;
 	}
 }

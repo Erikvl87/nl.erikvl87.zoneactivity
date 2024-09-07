@@ -60,6 +60,57 @@
     "conditions": [
       {
         "title": {
+          "en": "Any device in the zone is turned !{{on|off}}",
+          "nl": "Een apparaat in de zone is !{{aan|uit}}"
+        },
+        "hint": {
+          "en": "Checks if any device in the given zone is turned on. This card will generate an error if no devices of the given type are present in the zone.",
+          "nl": "Controleert of een apparaat in de gegeven zone is ingeschakeld. Deze kaart genereert een fout als er geen apparaten van het gegeven type in de zone aanwezig zijn."
+        },
+        "titleFormatted": {
+          "en": "Any device of type [[deviceType]] in zone [[zone]] ([[includeDescendants]]) is !{{on|off}}",
+          "nl": "Een apparaat van type [[deviceType]] in zone [[zone]] ([[includeDescendants]]) is !{{aan|uit}}"
+        },
+        "args": [
+          {
+            "type": "autocomplete",
+            "name": "deviceType",
+            "placeholder": {
+              "en": "Any"
+            }
+          },
+          {
+            "type": "autocomplete",
+            "name": "zone",
+            "placeholder": {
+              "en": "zone"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "includeDescendants",
+            "values": [
+              {
+                "id": "0",
+                "title": {
+                  "en": "excluding descendant zones",
+                  "nl": "exclusief onderliggende zones"
+                }
+              },
+              {
+                "id": "1",
+                "title": {
+                  "en": "including descendant zones",
+                  "nl": "inclusief onderliggende zones"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "zone-any-device-turned-on"
+      },
+      {
+        "title": {
           "en": "The zone is !{{inactive|active}}",
           "nl": "De zone is !{{inactief|actief}}"
         },
