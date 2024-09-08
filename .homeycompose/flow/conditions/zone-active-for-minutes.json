@@ -5,7 +5,7 @@
 	},
 	"titleFormatted": {
 		"en": "The zone [[zone]] is [[state]] for at least [[minutes]] minutes",
-		"nl":"De zone [[zone]] is [[state]] voor minstens [[minutes]] minuten"
+		"nl": "De zone [[zone]] is [[state]] voor minstens [[minutes]] minuten"
 	},
 	"hint": {
 		"en": "This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
@@ -15,7 +15,11 @@
 		{
 			"type": "autocomplete",
 			"name": "zone",
-			"values": []
+			"values": [],
+			"placeholder": {
+				"en": "zone",
+				"nl": "zone"
+			}
 		},
 		{
 			"type": "number",
@@ -29,6 +33,10 @@
 		{
 			"type": "dropdown",
 			"name": "state",
+			"title": {
+				"en": "state",
+				"nl": "status"
+			},
 			"values": [
 				{
 					"id": "active",

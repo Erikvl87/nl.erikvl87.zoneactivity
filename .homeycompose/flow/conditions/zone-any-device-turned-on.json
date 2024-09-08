@@ -23,12 +23,17 @@
 			"type": "autocomplete",
 			"name": "zone",
 			"placeholder": {
-				"en": "zone"
+				"en": "zone",
+				"nl": "zone"
 			}
 		},
 		{
 			"type": "dropdown",
 			"name": "includeDescendants",
+			"title": {
+				"en": "Include descendant zones",
+				"nl": "Wel of niet onderliggende zones meenemen"
+			},
 			"values": [
 				{
 					"id": "0",

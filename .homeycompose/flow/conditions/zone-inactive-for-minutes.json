@@ -9,14 +9,18 @@
 		"nl":"De zone [[zone]] is !{{inactief|actief}} voor minstens [[minutes]] minuten"
 	},
 	"hint": {
-		"en": "This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
-		"nl": "Deze voorwaarde zal voldoen wanneer er (geen) activiteit is gedetecteerd in een specifieke zone voor een specifieke hoeveelheid tijd."
+		"en": "[DEPRECATED] This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
+		"nl": "[DEPRECATED] Deze voorwaarde zal voldoen wanneer er (geen) activiteit is gedetecteerd in een specifieke zone voor een specifieke hoeveelheid tijd."
 	},
 	"args": [
 		{
 			"type": "autocomplete",
 			"name": "zone",
-			"values": []
+			"values": [],
+			"placeholder": {
+				"en": "zone",
+				"nl": "zone"
+			}
 		},
 		{
 			"type": "number",
