@@ -115,12 +115,12 @@
           "nl": "Een sensor met een bepaalde mogelijkheid in de zone heeft een waarde die voldoet aan de voorwaarde"
         },
         "titleFormatted": {
-          "en": "A sensor with [[capability]] capabilities in zone [[zone]] ([[includeDescendants]]) !{{has|does not have}} a value that [[operation]] [[value]]",
-          "nl": "Een sensor met [[capability]] mogelijkheden in zone [[zone]] ([[includeDescendants]]) !{{heeft|heeft niet}} een waarde die [[operation]] [[value]]"
+          "en": "A sensor with [[capability]] capabilities in zone [[zone]] ([[includeDescendants]]) !{{has|does not have}} a value that [[equation]] [[value]]",
+          "nl": "Een sensor met [[capability]] mogelijkheden in zone [[zone]] ([[includeDescendants]]) !{{heeft|heeft niet}} een waarde die [[equation]] [[value]]"
         },
         "hint": {
-          "en": "Evaluates the value of a sensor capability in a specific zone.",
-          "nl": "Evalueert de waarde van een sensor mogelijkheid in een specifieke zone."
+          "en": "Evaluates the value of a sensor capability in a specific zone. This card will generate an error if no sensors with the given capability are present in the zone.",
+          "nl": "Evalueert de waarde van een sensor mogelijkheid in een specifieke zone. Deze kaart genereert een fout als er geen sensoren met de gegeven mogelijkheid in de zone aanwezig zijn."
         },
         "args": [
           {
@@ -159,7 +159,7 @@
           },
           {
             "type": "dropdown",
-            "name": "operation",
+            "name": "equation",
             "values": [
               {
                 "id": "equals",

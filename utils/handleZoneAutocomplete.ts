@@ -1,9 +1,19 @@
-import { ExtendedZone } from "homey-api";
+import { FlowCard } from "homey";
+import Zones from "../lib/Zones";
+import { ExtendedHomeyAPIV3Local, ExtendedZone } from "homey-api";
 import { ArgumentAutocompleteResults } from "homey/lib/FlowCard";
-import Zones from "lib/Zones";
 import getIconForZone from "./getIconForZone";
 
-export default function getAutocompleteResultsForZone(zones: Zones): ArgumentAutocompleteResults {
+export default async function handleZoneAutocomplete(query: string, homeyApi: ExtendedHomeyAPIV3Local): Promise<FlowCard.ArgumentAutocompleteResults> {
+	const zones = new Zones(await homeyApi.zones.getZones());
+	const results = getAutocompleteResultsForZone(zones);
+
+	return results.filter((result) => {
+		return result.name.toLowerCase().includes(query.toLowerCase());
+	});
+}
+
+function getAutocompleteResultsForZone(zones: Zones): ArgumentAutocompleteResults {
 	const results: ArgumentAutocompleteResults = [];
 	const addedZoneIds = new Set<string>();
 
