@@ -13,5 +13,8 @@
   },
   "1.3.0": {
     "en": "Added a condition card to evaluate a sensor capability for devices in a specific zone"
+  },
+  "1.4.0": {
+    "en": "Replaced the flow card 'zone-inactive-for-minutes' (deprecated) with a new one that can be used inversely"
   }
 }
