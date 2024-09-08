@@ -3,6 +3,7 @@ import { HomeyAPI, ExtendedHomeyAPIV3Local } from 'homey-api';
 import ConditionCardAnyDeviceTurnedOn from './lib/ConditionCardAnyDeviceTurnedOn';
 import ConditionCardZoneInactiveForMinutes from './lib/ConditionCardZoneInactiveForMinutes';
 import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities';
+import ConditionCardZoneActiveForMinutes from './lib/ConditionCardZoneActiveForMinutes';
 
 class ZoneActivity extends Homey.App {
 	/**
@@ -23,7 +24,8 @@ class ZoneActivity extends Homey.App {
 		});
 
 		ConditionCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, this.log);
-		ConditionCardZoneInactiveForMinutes.initialize(this.homey, this.homeyApi, this.log);
+		ConditionCardZoneInactiveForMinutes.initialize(this.homey, this.homeyApi, this.log); // Deprecated
+		ConditionCardZoneActiveForMinutes.initialize(this.homey, this.homeyApi, this.log);
 		ConditionCardEvaluateSensorCapabilities.initialize(this.homey, this.homeyApi, this.log);
 	}
 }

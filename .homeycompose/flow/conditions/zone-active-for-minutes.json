@@ -1,12 +1,11 @@
 {
 	"title": {
-		"en": "The zone is !{{inactive|active}}",
-		"nl": "De zone is !{{inactief|actief}}"
+		"en": "The zone is active",
+		"nl": "De zone is actief"
 	},
-	"deprecated": true,
 	"titleFormatted": {
-		"en": "The zone [[zone]] is !{{inactive|active}} for at least [[minutes]] minutes",
-		"nl":"De zone [[zone]] is !{{inactief|actief}} voor minstens [[minutes]] minuten"
+		"en": "The zone [[zone]] is [[state]] for at least [[minutes]] minutes",
+		"nl":"De zone [[zone]] is [[state]] voor minstens [[minutes]] minuten"
 	},
 	"hint": {
 		"en": "This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
@@ -26,6 +25,26 @@
 			},
 			"min": 0,
 			"step": 1
+		},
+		{
+			"type": "dropdown",
+			"name": "state",
+			"values": [
+				{
+					"id": "active",
+					"label": {
+						"en": "active",
+						"nl": "actief"
+					}
+				},
+				{
+					"id": "inactive",
+					"label": {
+						"en": "inactive",
+						"nl": "inactief"
+					}
+				}
+			]
 		}
 	]
 }
