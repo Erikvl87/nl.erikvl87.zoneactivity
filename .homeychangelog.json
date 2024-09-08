@@ -16,5 +16,8 @@
   },
   "1.4.0": {
     "en": "Replaced the flow card 'zone-inactive-for-minutes' (deprecated) with a new one that can be used inversely"
+  },
+  "1.4.1": {
+    "en": "Update flow card argument titles and placeholders"
   }
 }

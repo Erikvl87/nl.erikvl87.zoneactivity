@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "nl.erikvl87.zoneactivity",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "support": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity",
   "bugs": {
     "url": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity/issues"
@@ -279,8 +279,8 @@
           "nl": "De zone [[zone]] is !{{inactief|actief}} voor minstens [[minutes]] minuten"
         },
         "hint": {
-          "en": "This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
-          "nl": "Deze voorwaarde zal voldoen wanneer er (geen) activiteit is gedetecteerd in een specifieke zone voor een specifieke hoeveelheid tijd."
+          "en": "[DEPRECATED] This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
+          "nl": "[DEPRECATED] Deze voorwaarde zal voldoen wanneer er (geen) activiteit is gedetecteerd in een specifieke zone voor een specifieke hoeveelheid tijd."
         },
         "args": [
           {
