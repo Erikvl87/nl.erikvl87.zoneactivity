@@ -19,5 +19,8 @@
   },
   "1.4.1": {
     "en": "Update flow card argument titles and placeholders"
+  },
+  "1.4.2": {
+    "en": "Fixed a flow card title"
   }
 }
