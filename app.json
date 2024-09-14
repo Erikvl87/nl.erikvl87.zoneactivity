@@ -486,7 +486,21 @@
         }
       ],
       "id": "virtual-motion-trigger",
-      "settings": []
+      "settings": [
+        {
+          "id": "always_on",
+          "type": "checkbox",
+          "label": {
+            "en": "Always on",
+            "nl": "Altijd aan"
+          },
+          "hint": {
+            "en": "Prevent this device from being turned off by Homey.",
+            "nl": "Voorkom dat dit apparaat wordt uitgezet door Homey."
+          },
+          "value": false
+        }
+      ]
     }
   ]
 }

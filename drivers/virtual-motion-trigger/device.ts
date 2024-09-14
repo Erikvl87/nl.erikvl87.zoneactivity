@@ -29,6 +29,13 @@ export class VirtualMotionDevice extends Homey.Device {
 	private async registerCapabilityListeners(): Promise<void> {
 		this.registerCapabilityListener("onoff", async (value) => {
 			const isMotionDetected = await this.getCapabilityValue('alarm_motion') ?? false;
+
+			const settings = this.getSettings();
+			const isAlwaysOn = settings.always_on ?? false;
+			if (!value && isAlwaysOn) {
+				throw new Error('The device cannot be turned of because it is set to `always on`.');
+			}
+
 			if (!value && isMotionDetected)
 				await this.toggleMotionAlarm({ alarm_motion: false, logSuffix: "because the device was turned off" }).catch(this.error);
 			this.log("Capability onoff was set to", value);
@@ -61,7 +68,7 @@ export class VirtualMotionDevice extends Homey.Device {
 
 		const oldValue = await this.getCapabilityValue('alarm_motion') ?? false;
 
-		if(oldValue === alarm_motion) {
+		if (oldValue === alarm_motion) {
 			this.log(`The motion alarm is already ${alarm_motion ? 'activated' : 'deactivated'}`);
 			return;
 		}
@@ -73,6 +80,18 @@ export class VirtualMotionDevice extends Homey.Device {
 
 		await this.setCapabilityValue('alarm_motion', alarm_motion);
 		await this.triggerCardAlarmChanged.trigger(this, {}, { alarm_motion });
+	}
+
+	/**
+	 * onSettings is called when the user changes the device settings.
+	 */
+	async onSettings(settings: {
+		oldSettings: { [key: string]: boolean | string | number | undefined | null };
+		newSettings: { [key: string]: boolean | string | number | undefined | null };
+		changedKeys: string[];
+	}): Promise<void> {
+		if (settings.changedKeys.includes('always_on') && settings.newSettings.always_on)
+			await this.setCapabilityValue('onoff', true);
 	}
 
 	/**
