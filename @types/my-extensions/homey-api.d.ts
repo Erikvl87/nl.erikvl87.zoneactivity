@@ -22,6 +22,10 @@ declare module 'homey-api' {
 		zone: string;
 		capabilities: string[];
 		capabilitiesObj: { [key: string]: CapabilitiesObject };
+		getZone(): Promise<ExtendedZone>;
+	}
+
+	class ExtendedDeviceCapability extends HomeyAPIV3Local.ManagerDevices.Device.DeviceCapability {
 	}
 
 	class ExtendedManagerZones extends HomeyAPIV3Local.ManagerZones {
@@ -31,9 +35,13 @@ declare module 'homey-api' {
 
 	class ExtendedManagerDevices extends HomeyAPIV3Local.ManagerDevices {
 		getDevices(): Promise<{ [key: string]: ExtendedDevice; }>;
+		connect(): Promise<void>;
+
+		on(event: "device.create" | "device.update" | "device.delete", callback: (device: ExtendedDevice) => void): void;
+		on(event: "capability.create" | "capability.update" | "capability.delete", callback: (capability: CapabilitiesObject) => void): void;
 	}
 
-	export class ExtendedHomeyAPIV3Local extends HomeyAPIV3Local {
+	export class ExtendedHomeyAPIV3Local extends HomeyAPIV3Local { 
 
 		// manager: HomeyAPIV3Local.Manager;
 		// alarms: HomeyAPIV3Local.ManagerAlarms;

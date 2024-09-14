@@ -1,0 +1,124 @@
+{
+	"title": {
+		"en": "Any device in the zone is turned on",
+		"nl": "Een apparaat in de zone is aangezet"
+	},
+	"titleFormatted": {
+		"en": "Any device of type [[deviceClass]] in zone [[zone]] ([[includeDescendants]]) is [[state]]",
+		"nl": "Een apparaat van type [[deviceClass]] in zone [[zone]] ([[includeDescendants]]) is [[state]]"
+	},
+	"hint": {
+		"en": "Triggered when any device in the given zone is turned on.",
+		"nl": "Wordt aangeroepen wanneer een apparaat in de gegeven zone wordt aangezet."
+	},
+	"args": [
+		{
+			"type": "autocomplete",
+			"name": "zone",
+			"placeholder": {
+				"en": "zone"
+			}
+		},
+		{
+			"type": "autocomplete",
+			"name": "deviceClass",
+			"placeholder": {
+				"en": "type"
+			}
+		},
+		{
+			"type": "dropdown",
+			"name": "includeDescendants",
+			"title": {
+				"en": "include descendant zones",
+				"nl": "wel of niet onderliggende zones meenemen"
+			},
+			"values": [
+				{
+					"id": "0",
+					"title": {
+						"en": "excluding descendant zones",
+						"nl": "exclusief onderliggende zones"
+					}
+				},
+				{
+					"id": "1",
+					"title": {
+						"en": "including descendant zones",
+						"nl": "inclusief onderliggende zones"
+					}
+				}
+			]
+		},
+		{
+			"type": "dropdown",
+			"name": "state",
+			"title": {
+				"en": "turned on",
+				"nl": "aangezet"
+			},
+			"values": [
+				{
+					"id": "1",
+					"title": {
+						"en": "turned on",
+						"nl": "aangezet"
+					}
+				},
+				{
+					"id": "0",
+					"title": {
+						"en": "turned off",
+						"nl": "uitgezet"
+					}
+				}
+			]
+		}
+	],
+	"tokens": [
+		{
+			"name": "zone",
+			"type": "string",
+			"title": {
+				"en": "Zone",
+				"nl": "Zone"
+			},
+			"example": {
+				"en": "Living room",
+				"nl": "Woonkamer"
+			}
+		},
+		{
+			"name": "deviceClass",
+			"type": "string",
+			"title": {
+				"en": "Device class",
+				"nl": "Apparaatklasse"
+			},
+			"example": {
+				"en": "Light",
+				"nl": "Lamp"
+			}
+		},
+		{
+			"name": "deviceName",
+			"type": "string",
+			"title": {
+				"en": "Device name",
+				"nl": "Apparaatnaam"
+			},
+			"example": {
+				"en": "Table lamp",
+				"nl": "Tafellamp"
+			}
+		},
+		{
+			"name": "state",
+			"type": "boolean",
+			"title": {
+				"en": "Turned on",
+				"nl": "Aangezet"
+			}
+		}
+	]
+}
