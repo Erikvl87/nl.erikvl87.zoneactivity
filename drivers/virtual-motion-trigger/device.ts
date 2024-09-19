@@ -17,7 +17,7 @@ export class VirtualMotionDevice extends Homey.Device {
 		const storedTurnOffAt = new Date(await this.getStoreValue("turn-off-alarm-at"));
 		if (storedTurnOffAt > now) {
 			this.log('Recovered a scheduled turn-off for the motion alarm', { storedTurnOffAt });
-			setTimeout(async () => {
+			this.homey.setTimeout(async () => {
 				await this.toggleMotionAlarm({ alarm_motion: false, logSuffix: "by a recovered timer in the store" }).catch(this.error);
 			}, storedTurnOffAt.getTime() - now.getTime());
 		}
@@ -59,7 +59,7 @@ export class VirtualMotionDevice extends Homey.Device {
 		const { alarm_motion, logSuffix, forced = false, clearTimer = true } = options;
 
 		if (clearTimer)
-			clearTimeout(this.scheduledTurnOffTimeoutId);
+			this.homey.clearTimeout(this.scheduledTurnOffTimeoutId);
 
 		const isTurnedOn = await this.getCapabilityValue('onoff') ?? true;
 		if (!isTurnedOn && !forced) {
@@ -137,7 +137,7 @@ export class VirtualMotionDevice extends Homey.Device {
 		}
 
 		await this.setStoreValue("turn-off-alarm-at", TurnOffAt).catch(this.error);
-		this.scheduledTurnOffTimeoutId = setTimeout(async () =>
+		this.scheduledTurnOffTimeoutId = this.homey.setTimeout(async () =>
 			await this.toggleMotionAlarm(
 				{ alarm_motion: false, logSuffix: "by a timer in a flow card", clearTimer: false }
 			).catch(this.error), seconds * 1000);
@@ -158,7 +158,7 @@ export class VirtualMotionDevice extends Homey.Device {
 		}
 
 		await this.setStoreValue("turn-off-alarm-at", TurnOffAt).catch(this.error);
-		this.scheduledTurnOffTimeoutId = setTimeout(async () =>
+		this.scheduledTurnOffTimeoutId = this.homey.setTimeout(async () =>
 			await this.toggleMotionAlarm(
 				{ alarm_motion: false, logSuffix: "by a timer in a flow card", clearTimer: false }
 			).catch(this.error), seconds * 1000);
