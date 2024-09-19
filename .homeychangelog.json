@@ -25,5 +25,8 @@
   },
   "1.4.3": {
     "en": "Added the \"Always on\" option to the Virtual Motion Trigger device"
+  },
+  "1.5.0": {
+    "en": "Added the trigger card for any device turned on/off"
   }
 }
