@@ -5,6 +5,7 @@ import ConditionCardZoneInactiveForMinutes from './lib/ConditionCardZoneInactive
 import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities';
 import ConditionCardZoneActiveForMinutes from './lib/ConditionCardZoneActiveForMinutes';
 import TriggerCardAnyDeviceTurnedOn from './lib/TriggerCardAnyDeviceOnOff';
+import ZonesDb from './lib/ZonesDb';
 
 class ZoneActivity extends Homey.App {
 	/**
@@ -24,11 +25,12 @@ class ZoneActivity extends Homey.App {
 			homey: this.homey,
 		});
 
-		ConditionCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, this.log);
-		ConditionCardZoneInactiveForMinutes.initialize(this.homey, this.homeyApi, this.log); // Deprecated
-		ConditionCardZoneActiveForMinutes.initialize(this.homey, this.homeyApi, this.log);
-		ConditionCardEvaluateSensorCapabilities.initialize(this.homey, this.homeyApi, this.log);
-		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, this.log);
+		const zonesDb = await ZonesDb.initialize(this.homeyApi, this.log);
+		await ConditionCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log);
+		await ConditionCardZoneInactiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log); // Deprecated
+		await ConditionCardZoneActiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log);
+		await ConditionCardEvaluateSensorCapabilities.initialize(this.homey, this.homeyApi, zonesDb, this.log);
+		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 	}
 }
 

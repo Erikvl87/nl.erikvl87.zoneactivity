@@ -2,26 +2,27 @@ import { ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
 import { FlowCardCondition } from "homey";
+import ZonesDb from "./ZonesDb";
 
 export default class ConditionCardZoneActiveForMinutes {
 	private static instance: ConditionCardZoneActiveForMinutes | null = null;
 	conditionCard: FlowCardCondition;
 
-	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private log: (...args: unknown[]) => void) {
+	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private zonesDb: ZonesDb, private log: (...args: unknown[]) => void) {
 		this.conditionCard = this.homey.flow.getConditionCard('zone-active-for-minutes');
-		this.setup();
 	}
 
-	public static initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, log: (...args: unknown[]) => void): void {
+	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, zonesDb: ZonesDb, log: (...args: unknown[]) => void): Promise<void> {
 		if (ConditionCardZoneActiveForMinutes.instance === null) {
-			ConditionCardZoneActiveForMinutes.instance = new ConditionCardZoneActiveForMinutes(homey, homeyApi, log);
+			ConditionCardZoneActiveForMinutes.instance = new ConditionCardZoneActiveForMinutes(homey, homeyApi, zonesDb, log);
+			await ConditionCardZoneActiveForMinutes.instance.setup();
 		}
 	}
 
 	private setup(): void {
 		try {
 			this.conditionCard.registerRunListener(async (args, _state) => {
-				const zone = await this.homeyApi.zones.getZone({ id: args.zone.id });
+				const zone = await this.zonesDb.getZone(args.zone.id);
 				if (zone == null)
 					throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
@@ -48,7 +49,7 @@ export default class ConditionCardZoneActiveForMinutes {
 		}
 
 		try {
-			this.conditionCard.registerArgumentAutocompleteListener('zone', (query: string) => handleZoneAutocomplete(query, this.homeyApi));
+			this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 		}
 		catch (error) {
 			this.log('Error updating condition card arguments:', error);

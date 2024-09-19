@@ -3,7 +3,7 @@ import Homey from "homey/lib/Homey";
 import { DeviceClassManager } from "./DeviceClassManager";
 import { FlowCard, FlowCardTrigger } from "homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
-import Zones from "./Zones";
+import ZonesDb from "./ZonesDb";
 
 export default class TriggerCardAnyDeviceTurnedOn {
 
@@ -15,13 +15,13 @@ export default class TriggerCardAnyDeviceTurnedOn {
 
 	capabilityInstances: Map<string, ExtendedDeviceCapability> = new Map();
 
-	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private log: (...args: unknown[]) => void) {
+	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private zonesDb: ZonesDb, private log: (...args: unknown[]) => void) {
 		this.triggerCard = this.homey.flow.getTriggerCard('zone-any-device-on-off');
 	}
 
-	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, log: (...args: unknown[]) => void): Promise<void> {
+	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, zonesDb: ZonesDb, log: (...args: unknown[]) => void): Promise<void> {
 		if (TriggerCardAnyDeviceTurnedOn.instance === null) {
-			TriggerCardAnyDeviceTurnedOn.instance = new TriggerCardAnyDeviceTurnedOn(homey, homeyApi, log);
+			TriggerCardAnyDeviceTurnedOn.instance = new TriggerCardAnyDeviceTurnedOn(homey, homeyApi, zonesDb, log);
 			await TriggerCardAnyDeviceTurnedOn.instance.setup();
 		}
 	}
@@ -38,10 +38,10 @@ export default class TriggerCardAnyDeviceTurnedOn {
 	private async addDeviceCapabilityObserver(device : ExtendedDevice): Promise<void> {
 		this.log('Creating capability instance for device.', { deviceId: device.id, deviceName: device.name });
 
-		const zone = await device.getZone(); // TODO move to central system to prevent multiple calls to getZone
 		const onOffInstance = device.makeCapabilityInstance('onoff', async value => {
+			const zone = await this.zonesDb.getZone(device.zone);
 			const tokens = {
-				zone: zone.name,
+				zone: zone?.name,
 				deviceName: device.name,
 				deviceClass: this.homey.__(device.class),
 				state: value
@@ -81,7 +81,7 @@ export default class TriggerCardAnyDeviceTurnedOn {
 		this.homeyApi.devices.on('device.delete', (device: ExtendedDevice) => this.deleteDeviceCapabilityObserver(device));
 
 		try {
-			this.triggerCard.registerArgumentAutocompleteListener('zone', (query: string) => handleZoneAutocomplete(query, this.homeyApi));
+			this.triggerCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 			this.triggerCard.registerArgumentAutocompleteListener('deviceClass',
 				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
 					const deviceClasses = DeviceClassManager.getAllDeviceClasses();
@@ -111,8 +111,8 @@ export default class TriggerCardAnyDeviceTurnedOn {
 			this.triggerCard.registerRunListener(async (args, state) => {
 				if(args.zone.id !== state.zone) {
 					if(args.includeDescendants === '1') {
-						const zones = new Zones(await this.homeyApi.zones.getZones());
-						if (!zones.getAllChildren(args.zone.id).some((zone) => zone.id === state.zone))
+						const childZones = await this.zonesDb.getAllChildren(args.zone.id);
+						if (!childZones.some((zone) => zone.id === state.zone))
 							return false;
 					} else {
 						return false;

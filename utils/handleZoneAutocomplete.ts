@@ -1,28 +1,19 @@
 import { FlowCard } from "homey";
-import Zones from "../lib/Zones";
-import { ExtendedHomeyAPIV3Local, ExtendedZone } from "homey-api";
+import { ExtendedZone } from "homey-api";
 import { ArgumentAutocompleteResults } from "homey/lib/FlowCard";
 import getIconForZone from "./getIconForZone";
+import ZonesDb from "../lib/ZonesDb";
 
-export default async function handleZoneAutocomplete(query: string, homeyApi: ExtendedHomeyAPIV3Local): Promise<FlowCard.ArgumentAutocompleteResults> {
-	const zones = new Zones(await homeyApi.zones.getZones());
-	const results = getAutocompleteResultsForZone(zones);
-
-	return results.filter((result) => {
-		return result.name.toLowerCase().includes(query.toLowerCase());
-	});
-}
-
-function getAutocompleteResultsForZone(zones: Zones): ArgumentAutocompleteResults {
+export default async function handleZoneAutocomplete(query: string, zonesDb: ZonesDb): Promise<FlowCard.ArgumentAutocompleteResults> {
 	const results: ArgumentAutocompleteResults = [];
 	const addedZoneIds = new Set<string>();
 
-	const addZoneAndChildren = (zone: ExtendedZone): void => {
+	const addZoneAndChildren = async (zone: ExtendedZone): Promise<void> => {
 		if (addedZoneIds.has(zone.id)) {
 			return;
 		}
 
-		const parents = zones.getAllParents(zone.id);
+		const parents = await zonesDb.getAllParents(zone.id);
 		const description = parents.reverse().map(parent => parent.name).join(' > ');
 
 		results.push({
@@ -33,13 +24,22 @@ function getAutocompleteResultsForZone(zones: Zones): ArgumentAutocompleteResult
 		});
 
 		addedZoneIds.add(zone.id);
-		const children = zones.getAllChildren(zone.id);
+		const children = await zonesDb.getAllChildren(zone.id);
 		children.sort((a, b) => a.name.localeCompare(b.name));
-		children.forEach(addZoneAndChildren);
+		for (const child of children) {
+			await addZoneAndChildren(child);
+		}
 	};
 
-	const rootZones = Array.from(zones.getZones()).filter(zone => !zone.parent);
+	const rootZones = Array.from(await zonesDb.getZones()).filter(zone => !zone.parent);
 	rootZones.sort((a, b) => a.name.localeCompare(b.name));
-	rootZones.forEach(addZoneAndChildren);
-	return results;
+	for (const rootZone of rootZones) {
+		await addZoneAndChildren(rootZone);
+	}
+
+	const filteredResults = results.filter((result) => {
+		return result.name.toLowerCase().includes(query.toLowerCase());
+	});
+
+	return filteredResults;
 }

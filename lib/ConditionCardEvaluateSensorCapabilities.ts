@@ -2,27 +2,27 @@ import { FlowCard, FlowCardCondition } from "homey";
 import { ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
 import { SensorCapabilitiesManager } from "./SensorCapabilitiesManager";
-import Zones from "./Zones";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
+import ZonesDb from "./ZonesDb";
 
 export default class ConditionCardEvaluateSensorCapabilities {
 	private static instance: ConditionCardEvaluateSensorCapabilities | null = null;
 	conditionCard: FlowCardCondition;
 
-	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private log: (...args: unknown[]) => void) {
+	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private zonesDb: ZonesDb, private log: (...args: unknown[]) => void) {
 		this.conditionCard = this.homey.flow.getConditionCard('zone-evaluate-capability-values');
-		this.setup();
 	}
 
-	public static initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, log: (...args: unknown[]) => void): void {
+	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, zonesDb: ZonesDb, log: (...args: unknown[]) => void): Promise<void> {
 		if (ConditionCardEvaluateSensorCapabilities.instance === null) {
-			ConditionCardEvaluateSensorCapabilities.instance = new ConditionCardEvaluateSensorCapabilities(homey, homeyApi, log);
+			ConditionCardEvaluateSensorCapabilities.instance = new ConditionCardEvaluateSensorCapabilities(homey, homeyApi, zonesDb, log);
+			await ConditionCardEvaluateSensorCapabilities.instance;
 		}
 	}
 
-	private setup(): void {
+	private async setup(): Promise<void> {
 		try {
-			this.conditionCard.registerArgumentAutocompleteListener('zone', (query: string) => handleZoneAutocomplete(query, this.homeyApi));
+			this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 			this.conditionCard.registerArgumentAutocompleteListener('capability',
 				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
 					const deviceClasses = SensorCapabilitiesManager.getAllSensorCapabilities();
@@ -49,15 +49,14 @@ export default class ConditionCardEvaluateSensorCapabilities {
 			this.conditionCard.registerRunListener(async (args, _state) => {
 				const capability = args.capability.id;
 				this.log(`Checking sensors in zone '${args.zone.id}' with capability '${capability}'.`);
-				const zones = new Zones(await this.homeyApi.zones.getZones());
-				const zone = zones.getZone(args.zone.id);
+				const zone = await this.zonesDb.getZone(args.zone.id);
 
 				if (zone == null)
 					throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
 				const zonesToCheck = [zone];
 				if (args.includeDescendants === "1")
-					zonesToCheck.push(...zones.getAllChildren(zone.id));
+					zonesToCheck.push(...await this.zonesDb.getAllChildren(zone.id));
 
 				const allDevices = await this.homeyApi.devices.getDevices();
 				const devicesToCheck = Object.values(allDevices).filter(device =>
