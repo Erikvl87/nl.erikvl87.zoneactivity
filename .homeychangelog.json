@@ -31,5 +31,8 @@
   },
   "1.5.1": {
     "en": "Improved the crash logs"
+  },
+  "1.5.2": {
+    "en": "Improved overall logging"
   }
 }
