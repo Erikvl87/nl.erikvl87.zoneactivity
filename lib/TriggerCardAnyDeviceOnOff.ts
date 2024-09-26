@@ -4,6 +4,7 @@ import { DeviceClassManager } from "./DeviceClassManager";
 import { FlowCard, FlowCardTrigger } from "homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
 import ZonesDb from "./ZonesDb";
+import CustomError from "./CustomError";
 
 export default class TriggerCardAnyDeviceTurnedOn {
 
@@ -55,7 +56,11 @@ export default class TriggerCardAnyDeviceTurnedOn {
 				onoff: value
 			};
 
-			await this.triggerCard.trigger(tokens, state);
+			try {
+				await this.triggerCard.trigger(tokens, state);
+			} catch (error) {
+				throw new CustomError(`Error triggering card '${this.triggerCard.id}'.`, { error, tokens, state });
+			}
 		});
 
 		this.capabilityInstances.set(device.id, onOffInstance);
