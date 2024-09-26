@@ -1,5 +1,6 @@
 import Homey from 'homey';
 import { HomeyAPI, ExtendedHomeyAPIV3Local } from 'homey-api';
+import { Log } from 'homey-log';
 import ConditionCardAnyDeviceTurnedOn from './lib/ConditionCardAnyDeviceTurnedOn';
 import ConditionCardZoneInactiveForMinutes from './lib/ConditionCardZoneInactiveForMinutes';
 import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities';
@@ -13,13 +14,15 @@ class ZoneActivity extends Homey.App {
 	 * @see https://athombv.github.io/node-homey-api/HomeyAPIV3Local.html
 	 */
 	homeyApi!: ExtendedHomeyAPIV3Local;
+	homeyLog?: Log;
 
 	/**
 	 * Initialize the Zone Activity app.
 	 * @returns {Promise<void>} A promise that resolves when the app has been initialized.
 	 */
 	async onInit(): Promise<void> {
-		this.log('Zone Activity has been initialized');
+		this.homeyLog = new Log({ homey: this.homey });
+		this.log(`${this.constructor.name} has been initialized`);
 
 		this.homeyApi = await HomeyAPI.createAppAPI({
 			homey: this.homey,
