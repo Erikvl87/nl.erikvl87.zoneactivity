@@ -1,9 +1,9 @@
 import { FlowCard, FlowCardCondition } from "homey";
 import { ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
-import { SensorCapabilitiesManager } from "./SensorCapabilitiesManager";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
 import ZonesDb from "./ZonesDb";
+import HomeyLib from "homey-lib";
 
 export default class ConditionCardEvaluateSensorCapabilities {
 	private static instance: ConditionCardEvaluateSensorCapabilities | null = null;
@@ -25,14 +25,21 @@ export default class ConditionCardEvaluateSensorCapabilities {
 			this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 			this.conditionCard.registerArgumentAutocompleteListener('capability',
 				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
-					const deviceClasses = SensorCapabilitiesManager.getAllSensorCapabilities();
 
-					const results = [...Object.values(deviceClasses).map((capability) => {
-						return {
-							name: this.homey.__(capability.id) ?? capability.friendlyName,
-							id: capability.id,
-						};
-					})];
+					const capabilities = HomeyLib.Capability.getCapabilities();
+
+					const languageCode = this.homey.i18n.getLanguage();
+					const results = [...Object.entries(capabilities)
+						.filter(([_key, capability]) => 
+							capability.uiComponent === 'sensor' && capability.type === 'number'
+						)
+						.map(([key, capability]) => {
+							return {
+								name: capability.title[languageCode],
+								description: capability.desc?.[languageCode],
+								id: key,
+							};
+						})];
 
 					return results.filter((result) => {
 						return result.name.toLowerCase().includes(query.toLowerCase());

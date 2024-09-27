@@ -1,10 +1,10 @@
 import { ExtendedDevice, ExtendedDeviceCapability, ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
-import { DeviceClassManager } from "./DeviceClassManager";
 import { FlowCard, FlowCardTrigger } from "homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
 import ZonesDb from "./ZonesDb";
 import CustomError from "./CustomError";
+import HomeyLib from "homey-lib";
 
 export default class TriggerCardAnyDeviceTurnedOn {
 
@@ -89,17 +89,19 @@ export default class TriggerCardAnyDeviceTurnedOn {
 			this.triggerCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 			this.triggerCard.registerArgumentAutocompleteListener('deviceClass',
 				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
-					const deviceClasses = DeviceClassManager.getAllDeviceClasses();
+					const deviceClasses = HomeyLib.Device.getClasses();
 
 					const results = [{
 						name: this.homey.__('any_type') ?? "Any type",
 						id: 'any_type',
 					}];
 
-					results.push(...Object.values(deviceClasses).map((deviceClass) => {
+					const languageCode = this.homey.i18n.getLanguage();
+					results.push(...Object.entries(deviceClasses).map(([key, deviceClass]) => {
 						return {
-							name: this.homey.__(deviceClass.id) ?? deviceClass.friendlyName,
-							id: deviceClass.id,
+							name: deviceClass.title[languageCode],
+							description: deviceClass.description?.[languageCode],
+							id: key,
 						};
 					}));
 

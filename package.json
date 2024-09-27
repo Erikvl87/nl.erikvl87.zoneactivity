@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "homey-api": "^3.6.2",
+    "homey-lib": "^2.32.5",
     "homey-log": "^2.1.0"
   }
 }

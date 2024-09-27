@@ -1,12 +1,12 @@
 import { ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
-import { DeviceClassManager } from "./DeviceClassManager";
 import { FlowCard, FlowCardCondition } from "homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
 import ZonesDb from "./ZonesDb";
+import HomeyLib from "homey-lib";
 
 export default class ConditionCardAnyDeviceTurnedOn {
-	
+
 	private static instance: ConditionCardAnyDeviceTurnedOn | null = null;
 
 	conditionCard: FlowCardCondition;
@@ -27,17 +27,19 @@ export default class ConditionCardAnyDeviceTurnedOn {
 			this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 			this.conditionCard.registerArgumentAutocompleteListener('deviceType',
 				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
-					const deviceClasses = DeviceClassManager.getAllDeviceClasses();
+					const deviceClasses = HomeyLib.Device.getClasses();
 
 					const results = [{
 						name: this.homey.__('any_type') ?? "Any type",
 						id: 'any_type',
 					}];
 
-					results.push(...Object.values(deviceClasses).map((deviceClass) => {
+					const languageCode = this.homey.i18n.getLanguage();
+					results.push(...Object.entries(deviceClasses).map(([key, deviceClass]) => {
 						return {
-							name: this.homey.__(deviceClass.id) ?? deviceClass.friendlyName,
-							id: deviceClass.id,
+							name: deviceClass.title[languageCode],
+							description: deviceClass.description?.[languageCode],
+							id: key,
 						};
 					}));
 
@@ -53,7 +55,7 @@ export default class ConditionCardAnyDeviceTurnedOn {
 		try {
 			this.conditionCard.registerRunListener(async (args, _state) => {
 				this.log(`Checking devices in zone '${args.zone.id}' with class '${args.deviceType.id}'.`);
-				
+
 				const zone = await this.zonesDb.getZone(args.zone.id);
 
 				if (zone == null)
