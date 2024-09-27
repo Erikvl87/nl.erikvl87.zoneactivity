@@ -44,7 +44,7 @@ export default class TriggerCardAnyDeviceTurnedOn {
 			const tokens = {
 				zone: zone?.name,
 				deviceName: device.name,
-				deviceClass: this.homey.__(device.class),
+				deviceClass: this.homey.__(device.class) ?? device.class,
 				state: value
 			};
 
