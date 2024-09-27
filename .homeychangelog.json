@@ -37,5 +37,8 @@
   },
   "1.5.3": {
     "en": "Resolved an issue that caused a crash when triggering a flow with untranslatable device classes"
+  },
+  "1.5.4": {
+    "en": "Updated the device classes list"
   }
 }
