@@ -6,7 +6,8 @@
     "outDir": ".homeybuild/",
     "strict": true,
     "alwaysStrict": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
   },
   "include": [
     "./**/*.ts"
