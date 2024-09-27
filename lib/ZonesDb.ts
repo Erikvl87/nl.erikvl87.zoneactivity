@@ -1,5 +1,4 @@
 import { ExtendedHomeyAPIV3Local, ExtendedZone } from "homey-api";
-import Homey from "homey/lib/Homey";
 
 export default class ZonesDb {
 
