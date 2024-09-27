@@ -1,0 +1,24 @@
+name: Validate Homey App
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+    main:
+      name: Validate Homey App
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '22.6.0'
+        - name: Install dependencies
+          run: npm install
+        - name: Install TypeScript
+          run: npm install -g typescript
+        - name: Validate Homey App
+          uses: athombv/github-action-homey-app-validate@master
+          with:
+            level: publish
