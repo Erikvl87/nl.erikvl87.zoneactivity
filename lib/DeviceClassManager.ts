@@ -8,17 +8,21 @@ export class DeviceClassManager {
 	static readonly deviceClasses: {
 		[key: string]: DeviceClass;
 	} = {
-			accelerometer: {
-				id: "accelerometer",
-				friendlyName: "Accelerometer"
-			},
 			amplifier: {
 				id: "amplifier",
 				friendlyName: "Amplifier"
 			},
+			blinds: {
+				id: "blinds",
+				friendlyName: "Blinds"
+			},
 			button: {
 				id: "button",
 				friendlyName: "Button"
+			},
+			camera: {
+				id: "camera",
+				friendlyName: "Camera"
 			},
 			coffeemachine: {
 				id: "coffeemachine",
@@ -60,10 +64,6 @@ export class DeviceClassManager {
 				id: "lock",
 				friendlyName: "Lock"
 			},
-			motionsensor: {
-				id: "motionsensor",
-				friendlyName: "Motion Sensor"
-			},
 			other: {
 				id: "other",
 				friendlyName: "Other"
@@ -80,13 +80,13 @@ export class DeviceClassManager {
 				id: "socket",
 				friendlyName: "Socket"
 			},
-			solarpanel: {
-				id: "solarpanel",
-				friendlyName: "Solar Panel"
-			},
 			speaker: {
 				id: "speaker",
 				friendlyName: "Speaker"
+			},
+			solarpanel: {
+				id: "solarpanel",
+				friendlyName: "Solar Panel"
 			},
 			sunshade: {
 				id: "sunshade",
@@ -104,17 +104,197 @@ export class DeviceClassManager {
 				id: "vacuumcleaner",
 				friendlyName: "Vacuum Cleaner"
 			},
-			vibration: {
-				id: "vibration",
-				friendlyName: "Vibration Sensor"
+			windowcoverings: {
+				id: "windowcoverings",
+				friendlyName: "Window Coverings"
+			},
+			airconditioning: {
+				id: "airconditioning",
+				friendlyName: "Air Conditioning"
+			},
+			bicycle: {
+				id: "bicycle",
+				friendlyName: "Bicycle"
+			},
+			battery: {
+				id: "battery",
+				friendlyName: "Battery"
+			},
+			car: {
+				id: "car",
+				friendlyName: "Car"
+			},
+			boiler: {
+				id: "boiler",
+				friendlyName: "Boiler"
+			},
+			dehumidifier: {
+				id: "dehumidifier",
+				friendlyName: "Dehumidifier"
+			},
+			dishwasher: {
+				id: "dishwasher",
+				friendlyName: "Dishwasher"
+			},
+			diffuser: {
+				id: "diffuser",
+				friendlyName: "Diffuser"
+			},
+			evcharger: {
+				id: "evcharger",
+				friendlyName: "EV Charger"
+			},
+			dryer: {
+				id: "dryer",
+				friendlyName: "Dryer"
+			},
+			cooktop: {
+				id: "cooktop",
+				friendlyName: "Cooktop"
+			},
+			faucet: {
+				id: "faucet",
+				friendlyName: "Faucet"
+			},
+			fireplace: {
+				id: "fireplace",
+				friendlyName: "Fireplace"
+			},
+			freezer: {
+				id: "freezer",
+				friendlyName: "Freezer"
+			},
+			fridge_and_freezer: {
+				id: "fridge_and_freezer",
+				friendlyName: "Fridge and Freezer"
+			},
+			fridge: {
+				id: "fridge",
+				friendlyName: "Fridge"
+			},
+			gameconsole: {
+				id: "gameconsole",
+				friendlyName: "Game Console"
+			},
+			grill: {
+				id: "grill",
+				friendlyName: "Grill"
+			},
+			heatpump: {
+				id: "heatpump",
+				friendlyName: "Heat Pump"
+			},
+			hood: {
+				id: "hood",
+				friendlyName: "Hood"
+			},
+			humidifier: {
+				id: "humidifier",
+				friendlyName: "Humidifier"
+			},
+			mediaplayer: {
+				id: "mediaplayer",
+				friendlyName: "Media Player"
+			},
+			airtreatment: {
+				id: "airtreatment",
+				friendlyName: "Air Treatment"
+			},
+			lawnmower: {
+				id: "lawnmower",
+				friendlyName: "Lawnmower"
+			},
+			mop: {
+				id: "mop",
+				friendlyName: "Mop"
+			},
+			oven: {
+				id: "oven",
+				friendlyName: "Oven"
+			},
+			multicooker: {
+				id: "multicooker",
+				friendlyName: "Multi-cooker"
+			},
+			airpurifier: {
+				id: "airpurifier",
+				friendlyName: "Air Purifier"
+			},
+			petfeeder: {
+				id: "petfeeder",
+				friendlyName: "Pet Feeder"
+			},
+			scooter: {
+				id: "scooter",
+				friendlyName: "Scooter"
+			},
+			radiator: {
+				id: "radiator",
+				friendlyName: "Radiator"
+			},
+			settopbox: {
+				id: "settopbox",
+				friendlyName: "Set-top Box"
+			},
+			shutterblinds: {
+				id: "shutterblinds",
+				friendlyName: "Shutter Blinds"
+			},
+			fryer: {
+				id: "fryer",
+				friendlyName: "Fryer"
+			},
+			smokealarm: {
+				id: "smokealarm",
+				friendlyName: "Smoke Alarm"
+			},
+			vehicle: {
+				id: "vehicle",
+				friendlyName: "Vehicle"
 			},
 			washer: {
 				id: "washer",
 				friendlyName: "Washer"
 			},
-			windowcoverings: {
-				id: "windowcoverings",
-				friendlyName: "Window Coverings"
+			airfryer: {
+				id: "airfryer",
+				friendlyName: "Air Fryer"
+			},
+			washer_and_dryer: {
+				id: "washer_and_dryer",
+				friendlyName: "Washer and Dryer"
+			},
+			waterpurifier: {
+				id: "waterpurifier",
+				friendlyName: "Water Purifier"
+			},
+			waterheater: {
+				id: "waterheater",
+				friendlyName: "Water Heater"
+			},
+			oven_and_microwave: {
+				id: "oven_and_microwave",
+				friendlyName: "Oven and Microwave"
+			},
+			microwave: {
+				id: "microwave",
+				friendlyName: "Microwave"
+			},
+			watervalve: {
+				id: "watervalve",
+				friendlyName: "Water Valve"
+			},
+			sprinkler: {
+				id: "sprinkler",
+				friendlyName: "Sprinkler"
+			},
+			siren: {
+				id: "siren",
+				friendlyName: "Siren"
+			},
+			networkrouter: {
+				id: "networkrouter",
+				friendlyName: "Network Router"
 			}
 		};
 
