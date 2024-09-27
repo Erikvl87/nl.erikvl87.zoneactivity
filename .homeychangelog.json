@@ -34,5 +34,8 @@
   },
   "1.5.2": {
     "en": "Improved overall logging"
+  },
+  "1.5.3": {
+    "en": "Resolved an issue that caused a crash when triggering a flow with untranslatable device classes"
   }
 }
