@@ -46,5 +46,8 @@
   },
   "1.6.0": {
     "en": "Improved supported device classes & capabilities and their translations"
+  },
+  "1.6.1": {
+    "en": "Fixed empty translations for device classes and capabilities by falling back on the English translation"
   }
 }
