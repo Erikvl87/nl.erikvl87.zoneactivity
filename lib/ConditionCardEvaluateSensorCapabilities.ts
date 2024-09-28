@@ -16,7 +16,7 @@ export default class ConditionCardEvaluateSensorCapabilities {
 	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, zonesDb: ZonesDb, log: (...args: unknown[]) => void): Promise<void> {
 		if (ConditionCardEvaluateSensorCapabilities.instance === null) {
 			ConditionCardEvaluateSensorCapabilities.instance = new ConditionCardEvaluateSensorCapabilities(homey, homeyApi, zonesDb, log);
-			await ConditionCardEvaluateSensorCapabilities.instance;
+			await ConditionCardEvaluateSensorCapabilities.instance.setup();
 		}
 	}
 
