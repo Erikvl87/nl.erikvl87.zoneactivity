@@ -98,8 +98,8 @@ export default class TriggerCardAnyDeviceTurnedOn {
 				const languageCode = this.homey.i18n.getLanguage();
 				results.push(...Object.entries(deviceClasses).map(([key, deviceClass]) => {
 					return {
-						name: deviceClass.title[languageCode],
-						description: deviceClass.description?.[languageCode],
+						name: deviceClass.title[languageCode] ?? deviceClass.title.en,
+						description: deviceClass.description?.[languageCode] ?? deviceClass.description?.en,
 						id: key,
 					};
 				}));

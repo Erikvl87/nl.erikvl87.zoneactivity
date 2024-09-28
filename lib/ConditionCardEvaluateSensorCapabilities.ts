@@ -29,13 +29,13 @@ export default class ConditionCardEvaluateSensorCapabilities {
 
 				const languageCode = this.homey.i18n.getLanguage();
 				const results = [...Object.entries(capabilities)
-					.filter(([_key, capability]) => 
+					.filter(([_key, capability]) =>
 						capability.uiComponent === 'sensor' && capability.type === 'number'
 					)
 					.map(([key, capability]) => {
 						return {
-							name: capability.title[languageCode],
-							description: capability.desc?.[languageCode],
+							name: capability.title[languageCode] ?? capability.title.en,
+							description: capability.desc?.[languageCode] ?? capability.desc?.en,
 							id: key,
 						};
 					})];
