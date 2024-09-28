@@ -40,5 +40,8 @@
   },
   "1.5.4": {
     "en": "Updated the device classes list"
+  },
+  "1.5.5": {
+    "en": "Fixed an issue in the autocomplete field of one of the sensor condition cards"
   }
 }
