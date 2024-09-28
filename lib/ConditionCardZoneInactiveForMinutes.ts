@@ -23,28 +23,19 @@ export default class ConditionCardZoneInactiveForMinutes {
 	}
 
 	private async setup(): Promise<void> {
-		try {
-			this.conditionCard.registerRunListener(async (args, _state) => {
-				const zone = await this.zonesDb.getZone(args.zone.id);
-				if (zone == null)
-					throw new Error(`Zone with id '${args.zone.id}' not found.`);
+		this.conditionCard.registerRunListener(async (args, _state) => {
+			const zone = await this.zonesDb.getZone(args.zone.id);
+			if (zone == null)
+				throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
-				const now = new Date();
-				const isInactive = zone.activeLastUpdated === null ? true
-					: zone.active ? false : (now.getTime() - new Date(zone.activeLastUpdated).getTime()) >= args.minutes * 60 * 1000;
+			const now = new Date();
+			const isInactive = zone.activeLastUpdated === null ? true
+				: zone.active ? false : (now.getTime() - new Date(zone.activeLastUpdated).getTime()) >= args.minutes * 60 * 1000;
 
-				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone });
-				return isInactive;
-			});
-		} catch (error) {
-			this.log('Error registering run listener:', error);
-		}
+			this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone });
+			return isInactive;
+		});
 
-		try {
-			this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
-		}
-		catch (error) {
-			this.log('Error updating condition card arguments:', error);
-		}
+		this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 	}
 }

@@ -85,59 +85,51 @@ export default class TriggerCardAnyDeviceTurnedOn {
 
 		this.homeyApi.devices.on('device.delete', (device: ExtendedDevice) => this.deleteDeviceCapabilityObserver(device));
 
-		try {
-			this.triggerCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
-			this.triggerCard.registerArgumentAutocompleteListener('deviceClass',
-				async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
-					const deviceClasses = HomeyLib.Device.getClasses();
+		this.triggerCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
+		this.triggerCard.registerArgumentAutocompleteListener('deviceClass',
+			async (query: string): Promise<FlowCard.ArgumentAutocompleteResults> => {
+				const deviceClasses = HomeyLib.Device.getClasses();
 
-					const results = [{
-						name: this.homey.__('any_type') ?? "Any type",
-						id: 'any_type',
-					}];
+				const results = [{
+					name: this.homey.__('any_type') ?? "Any type",
+					id: 'any_type',
+				}];
 
-					const languageCode = this.homey.i18n.getLanguage();
-					results.push(...Object.entries(deviceClasses).map(([key, deviceClass]) => {
-						return {
-							name: deviceClass.title[languageCode],
-							description: deviceClass.description?.[languageCode],
-							id: key,
-						};
-					}));
+				const languageCode = this.homey.i18n.getLanguage();
+				results.push(...Object.entries(deviceClasses).map(([key, deviceClass]) => {
+					return {
+						name: deviceClass.title[languageCode],
+						description: deviceClass.description?.[languageCode],
+						id: key,
+					};
+				}));
 
-					return results.filter((result) => {
-						return result.name.toLowerCase().includes(query.toLowerCase());
-					});
-				}
-			);
-		} catch (error) {
-			this.log('Error updating condition card arguments:', error);
-		}
+				return results.filter((result) => {
+					return result.name.toLowerCase().includes(query.toLowerCase());
+				});
+			}
+		);
 
-		try {
-			this.triggerCard.registerRunListener(async (args, state) => {
-				if(args.zone.id !== state.zone) {
-					if(args.includeDescendants === '1') {
-						const childZones = await this.zonesDb.getAllChildren(args.zone.id);
-						if (!childZones.some((zone) => zone.id === state.zone))
-							return false;
-					} else {
+		this.triggerCard.registerRunListener(async (args, state) => {
+			if(args.zone.id !== state.zone) {
+				if(args.includeDescendants === '1') {
+					const childZones = await this.zonesDb.getAllChildren(args.zone.id);
+					if (!childZones.some((zone) => zone.id === state.zone))
 						return false;
-					}
+				} else {
+					return false;
 				}
+			}
 
-				if (args.deviceClass.id !== 'any_type' && args.deviceClass.id !== state.deviceClass)
-					return false;
+			if (args.deviceClass.id !== 'any_type' && args.deviceClass.id !== state.deviceClass)
+				return false;
 
-				const stateToCheck = args.state === '1';
-				if(state.onoff !== stateToCheck)
-					return false;
+			const stateToCheck = args.state === '1';
+			if(state.onoff !== stateToCheck)
+				return false;
 
-				this.log(`Zone activity card triggered for zone '${args.zone.id}' because device '${state.deviceName}' was turned ${state.onoff ? 'on' : 'off'}.`);
-				return true;
-			});
-		} catch (error) {
-			this.log('Error registering run listener:', error);
-		}
+			this.log(`Zone activity card triggered for zone '${args.zone.id}' because device '${state.deviceName}' was turned ${state.onoff ? 'on' : 'off'}.`);
+			return true;
+		});
 	}
 }
