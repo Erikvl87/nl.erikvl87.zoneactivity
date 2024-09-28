@@ -19,7 +19,7 @@ export default class ConditionCardZoneActiveForMinutes {
 		}
 	}
 
-	private setup(): void {
+	private async setup(): Promise<void> {
 		try {
 			this.conditionCard.registerRunListener(async (args, _state) => {
 				const zone = await this.zonesDb.getZone(args.zone.id);
