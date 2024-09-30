@@ -33,7 +33,7 @@ class ZoneActivity extends Homey.App {
 		await ConditionCardZoneInactiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log); // Deprecated
 		await ConditionCardZoneActiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 		await ConditionCardEvaluateSensorCapabilities.initialize(this.homey, this.homeyApi, zonesDb, this.log);
-		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log);
+		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log, this.error);
 	}
 }
 

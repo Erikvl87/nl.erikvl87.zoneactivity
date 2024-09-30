@@ -16,13 +16,13 @@ export default class TriggerCardAnyDeviceTurnedOn {
 
 	capabilityInstances: Map<string, ExtendedDeviceCapability> = new Map();
 
-	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private zonesDb: ZonesDb, private log: (...args: unknown[]) => void) {
+	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private zonesDb: ZonesDb, private log: (...args: unknown[]) => void, private error: (...args: unknown[]) => void) {
 		this.triggerCard = this.homey.flow.getTriggerCard('zone-any-device-on-off');
 	}
 
-	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, zonesDb: ZonesDb, log: (...args: unknown[]) => void): Promise<void> {
+	public static async initialize(homey: Homey, homeyApi: ExtendedHomeyAPIV3Local, zonesDb: ZonesDb, log: (...args: unknown[]) => void, error: (...args: unknown[]) => void): Promise<void> {
 		if (TriggerCardAnyDeviceTurnedOn.instance === null) {
-			TriggerCardAnyDeviceTurnedOn.instance = new TriggerCardAnyDeviceTurnedOn(homey, homeyApi, zonesDb, log);
+			TriggerCardAnyDeviceTurnedOn.instance = new TriggerCardAnyDeviceTurnedOn(homey, homeyApi, zonesDb, log, error);
 			await TriggerCardAnyDeviceTurnedOn.instance.setup();
 		}
 	}
@@ -40,6 +40,13 @@ export default class TriggerCardAnyDeviceTurnedOn {
 		this.log('Creating capability instance for device.', { deviceId: device.id, deviceName: device.name });
 
 		const onOffInstance = device.makeCapabilityInstance('onoff', async value => {
+			// Some devices have their onoff capability set to null.
+			// Assuming that as an invalid state and ignoring it.
+			if (value === null) {
+				this.error(`${this.constructor.name}: Received 'null' value for onoff capability. Ignoring this state.`, { deviceId: device.id, deviceName: device.name });
+				return;
+			}
+
 			const zone = await this.zonesDb.getZone(device.zone);
 			const tokens = {
 				zone: zone?.name,
