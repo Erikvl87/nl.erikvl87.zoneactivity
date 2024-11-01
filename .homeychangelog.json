@@ -49,5 +49,8 @@
   },
   "1.6.1": {
     "en": "Fixed empty translations for device classes and capabilities by falling back on the English translation"
+  },
+  "1.6.2": {
+    "en": "Fixed an issue that caused a crash for a trigger card when unable to determine a zone name"
   }
 }
