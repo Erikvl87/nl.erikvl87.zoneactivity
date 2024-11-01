@@ -70,7 +70,7 @@ export default class ZonesDb {
 	/**
 	 * Get all parent zones of a zone.
 	 */
-	async getAllParents(zoneId: string): Promise<ExtendedZone[]> {
+	public async getAllParents(zoneId: string): Promise<ExtendedZone[]> {
 		while (this.isUpdating) {
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
@@ -80,7 +80,7 @@ export default class ZonesDb {
 	/**
 	 * Get all children of a zone.
 	 */
-	async getAllChildren(zoneId: string): Promise<ExtendedZone[]> {
+	public async getAllChildren(zoneId: string): Promise<ExtendedZone[]> {
 		while (this.isUpdating) {
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
