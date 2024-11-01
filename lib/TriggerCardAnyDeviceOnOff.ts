@@ -40,16 +40,24 @@ export default class TriggerCardAnyDeviceTurnedOn {
 		this.log('Creating capability instance for device.', { deviceId: device.id, deviceName: device.name });
 
 		const onOffInstance = device.makeCapabilityInstance('onoff', async value => {
+			if (value === null) {
 			// Some devices have their onoff capability set to null.
 			// Assuming that as an invalid state and ignoring it.
-			if (value === null) {
 				this.error(`${this.constructor.name}: Received 'null' value for onoff capability. Ignoring this state.`, { deviceId: device.id, deviceName: device.name });
 				return;
 			}
 
 			const zone = await this.zonesDb.getZone(device.zone);
+			if (zone === null) {
+				// Not expected to happen but occasionally it does. Log it.
+				const zones = await this.zonesDb.getZones();
+				this.error('Zone not found for device.', { zoneId: device.zone, zones });
+			}
+
+			const zoneName = zone?.name ?? '[Zone name not found]';
+
 			const tokens = {
-				zone: zone?.name,
+				zone: zoneName,
 				deviceName: device.name,
 				deviceClass: this.homey.__(device.class) ?? device.class,
 				state: value
