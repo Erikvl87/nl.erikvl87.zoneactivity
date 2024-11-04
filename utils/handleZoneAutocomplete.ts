@@ -24,7 +24,7 @@ export default async function handleZoneAutocomplete(query: string, zonesDb: Zon
 		});
 
 		addedZoneIds.add(zone.id);
-		const children = await zonesDb.getAllChildren(zone.id);
+		const children = await zonesDb.getDirectChildren(zone.id);
 		children.sort((a, b) => a.name.localeCompare(b.name));
 		for (const child of children) {
 			await addZoneAndChildren(child);

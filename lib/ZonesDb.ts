@@ -113,4 +113,14 @@ export default class ZonesDb {
 		}
 		return this.zones.get(zoneId) || null;
 	}
+
+	/**
+	 * Get all direct children of a zone.
+	 */
+	public async getDirectChildren(zoneId: string): Promise<ExtendedZone[]> {
+		while (this.isUpdating) {
+			await new Promise(resolve => setTimeout(resolve, 100));
+		}
+		return this.childMap.get(zoneId) || [];
+	}
 }
