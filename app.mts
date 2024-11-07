@@ -2,7 +2,6 @@ import Homey from 'homey';
 import { HomeyAPI, ExtendedHomeyAPIV3Local } from 'homey-api';
 import { Log } from 'homey-log';
 import ConditionCardAnyDeviceTurnedOn from './lib/ConditionCardAnyDeviceTurnedOn.mjs';
-import ConditionCardZoneInactiveForMinutes from './lib/ConditionCardZoneInactiveForMinutes.mjs';
 import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities.mjs';
 import ConditionCardZoneActiveForMinutes from './lib/ConditionCardZoneActiveForMinutes.mjs';
 import TriggerCardAnyDeviceTurnedOn from './lib/TriggerCardAnyDeviceOnOff.mjs';
@@ -35,7 +34,6 @@ export default class ZoneActivity extends Homey.App {
 
 		const zonesDb = await ZonesDb.initialize(this.homeyApi, this.log);
 		await ConditionCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log);
-		await ConditionCardZoneInactiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log); // Deprecated
 		await ConditionCardZoneActiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 		await ConditionCardEvaluateSensorCapabilities.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log, this.error);
