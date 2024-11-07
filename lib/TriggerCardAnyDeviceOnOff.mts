@@ -50,7 +50,7 @@ export default class TriggerCardAnyDeviceTurnedOn {
 			const zone = await this.zonesDb.getZone(device.zone);
 			if (zone === null) {
 				// Not expected to happen but occasionally it does. Log it.
-				const zones = await this.zonesDb.getZones();
+				const zones = await this.zonesDb.getAllZones();
 				this.error('Zone not found for device.', { zoneId: device.zone, zones });
 			}
 

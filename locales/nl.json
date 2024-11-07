@@ -1,4 +1,16 @@
 {
 	"any_type": "Elk type",
-	"any_sensor": "Elke sensor"
+	"any_sensor": "Elke sensor",
+	"active": "Actief",
+	"last_active": "Laatst actief",
+	"hours_ago": "uur geleden",
+	"hour_ago": "uur geleden",
+	"minutes_ago": "minuten geleden",
+	"minute_ago": "minuut geleden",
+	"second_ago": "seconde geleden",
+	"seconds_ago": "seconden geleden",
+	"widget_error": "Er is een fout is opgetreden",
+	"contact_dev": "Neem contact op met de ontwikkelaar",
+	"zone_not_found": "Zone niet gevonden",
+	"never": "Nooit"
 }

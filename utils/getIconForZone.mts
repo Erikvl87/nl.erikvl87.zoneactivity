@@ -1,5 +1,25 @@
+const cache: { [key: string]: string } = {};
+
 function getZoneImagePath(t: string): string {
 	return `https://my.homey.app/img/zones/${t}`;
+}
+
+async function getZoneImageSource(iconName: string): Promise<string | null> {
+	if (cache[iconName]) {
+		return cache[iconName];
+	}
+	const url = getIconForZone(iconName);
+	try {
+		const response = await fetch(url);
+		if (!response.ok || !response.headers.get('content-type')?.includes('image/svg+xml')) {
+			throw new Error('Invalid response while fetching icon');
+		}
+		const svgSource = await response.text();
+		cache[iconName] = svgSource;
+		return svgSource;
+	} catch (_error) {
+		return null;
+	}
 }
 
 export default function getIconForZone(iconName: string): string {
@@ -108,3 +128,5 @@ export default function getIconForZone(iconName: string): string {
 		return getZoneImagePath('hallway_door.svg');
 	}
 }
+
+export { getZoneImageSource };

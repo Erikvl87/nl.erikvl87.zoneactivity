@@ -87,6 +87,7 @@ export default class ZonesDb {
 		const descendants: ExtendedZone[] = [];
 		const addChildren = (id: string): void => {
 			const children = this.childMap.get(id) || [];
+			children.sort((a, b) => a.name.localeCompare(b.name));
 			children.forEach(child => {
 				descendants.push(child);
 				addChildren(child.id);
@@ -97,11 +98,30 @@ export default class ZonesDb {
 		return descendants;
 	}
 
-	public async getZones(): Promise<ExtendedZone[]> {
+	public async getAllZones(): Promise<ExtendedZone[]> {
 		while (this.isUpdating) {
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
-		return Array.from(this.zones.values());
+		const sortedZones: ExtendedZone[] = [];
+		const addZoneAndChildren = (zone: ExtendedZone): void => {
+			sortedZones.push(zone);
+			const children = this.childMap.get(zone.id) || [];
+			children.sort((a, b) => a.name.localeCompare(b.name));
+			children.forEach(addZoneAndChildren);
+		};
+
+		const rootZones = Array.from(this.zones.values()).filter(zone => !zone.parent);
+		rootZones.sort((a, b) => a.name.localeCompare(b.name));
+		rootZones.forEach(addZoneAndChildren);
+
+		return sortedZones;
+	}
+
+	public async getZones(zoneIds: string[]): Promise<ExtendedZone[]> {
+		while (this.isUpdating) {
+			await new Promise(resolve => setTimeout(resolve, 100));
+		}
+		return zoneIds.map(zoneId => this.zones.get(zoneId)).filter(zone => zone !== undefined) as ExtendedZone[];
 	}
 
 	/**

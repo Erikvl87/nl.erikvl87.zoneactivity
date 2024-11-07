@@ -1,0 +1,154 @@
+<html>
+
+<head>
+	<style>
+		.error-icon {
+			-webkit-mask: url(error.svg) center center no-repeat;
+			mask: url(error.svg) center center no-repeat;
+			background-color: var(--homey-text-color);
+			width: 20px;
+			height: 20px;
+		}
+
+		.zone-icon {
+			margin-right: var(--homey-su-2);
+			width: 20px;
+			height: 20px;
+		}
+
+		#zone-name {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.zone-info-container {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.zone-info-row {
+			display: flex;
+			align-items: center;
+			position: relative;
+			gap: var(--homey-su-2);
+			width: 100%;
+		}
+
+		.zone-status.active {
+			color: var(--homey-color-blue-500);
+		}
+
+		.last-state-change {
+			margin-top: var(--homey-su-2);
+		}
+
+		.status-container {
+			display: flex;
+			align-items: center;
+			gap: var(--homey-su-2);
+			position: relative;
+		}
+
+		.pulse-background {
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			background: var(--homey-color-blue-500);
+			position: absolute;
+			top: 50%;
+			left: 5px;
+			transform: translate(-50%, -50%);
+			z-index: 0;
+			display: none;
+		}
+
+		.pulse {
+			content: "";
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			background: var(--homey-color-blue-500);
+			animation: pulse-animation 2s ease-out infinite;
+			position: relative;
+			z-index: 1;
+			display: none;
+		}
+
+		@keyframes pulse-animation {
+			0% {
+				transform: scale(1);
+				opacity: 1;
+			}
+
+			100% {
+				transform: scale(1.5);
+				opacity: 0;
+			}
+		}
+
+		.error-info-row {
+			display: flex;
+			align-items: center;
+			gap: var(--homey-su-2);
+		}
+
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		ul#zones-list>li {
+			margin-bottom: var(--homey-su-2);
+			height: 48px;
+		}
+
+		ul#zones-list>li:last-child {
+			margin-bottom: 0;
+		}
+
+		.homey-widget.scrollable {
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+
+<body class="homey-widget">
+	<div id="error" class="error" style="display: none;">
+		<div class="error-info-row">
+			<div id="error-icon" class="error-icon"></div>
+			<div id="error-title" class="homey-text-medium"></div>
+		</div>
+		<div id="error-message" class="homey-text-small-light"></div>
+	</div>
+
+	<ul id="zones-list">
+
+	</ul>
+
+	<ul id="template" style="display: none;">
+		<li id="zone-template">
+			<div class="zone-info-container">
+				<div class="zone-info-row">
+					<div id="zone-icon" class="zone-icon"></div>
+					<div id="zone-name" class="homey-text-bold"></div>
+				</div>
+				<div class="status-container">
+					<span id="pulse-background" class="pulse-background"></span>
+					<span id="pulse" class="pulse"></span>
+					<div id="zone-status" class="zone-status"></div>
+				</div>
+			</div>
+		</li>
+	</ul>
+
+	<script type="module">
+		import autoAnimate from './autoAnimate.min.js';
+		const list = document.getElementById('zones-list');
+		autoAnimate(list);
+	</script>
+	<script defer src="index.mjs"></script>
+</body>
+
+</html>

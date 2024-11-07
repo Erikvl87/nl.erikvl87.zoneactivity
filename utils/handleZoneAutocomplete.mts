@@ -31,7 +31,7 @@ export default async function handleZoneAutocomplete(query: string, zonesDb: Zon
 		}
 	};
 
-	const rootZones = Array.from(await zonesDb.getZones()).filter(zone => !zone.parent);
+	const rootZones = Array.from(await zonesDb.getAllZones()).filter(zone => !zone.parent);
 	rootZones.sort((a, b) => a.name.localeCompare(b.name));
 	for (const rootZone of rootZones) {
 		await addZoneAndChildren(rootZone);

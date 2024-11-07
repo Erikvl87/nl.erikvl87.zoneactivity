@@ -1,4 +1,16 @@
 {
 	"any_type": "Any type",
-	"any_sensor": "Any sensor"
+	"any_sensor": "Any sensor",
+	"active": "Active",
+	"last_active": "Last active",
+	"hour_ago": "hour ago",
+	"hours_ago": "hours ago",
+	"minute_ago": "minute ago",
+	"minutes_ago": "minutes ago",
+	"second_ago": "second ago",
+	"seconds_ago": "seconds ago",
+	"widget_error": "An error occurred",
+	"contact_dev": "Please contact the developer",
+	"zone_not_found": "Zone not found",
+	"never": "Never"
 }

@@ -8,7 +8,7 @@
     "url": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity/issues"
   },
   "source": "https://github.com/Erikvl87/nl.erikvl87.zoneactivity",
-  "compatibility": ">=12.0.1",
+  "compatibility": ">=12.1.2",
   "sdk": 3,
   "platforms": [
     "local"
@@ -629,5 +629,115 @@
         }
       ]
     }
-  ]
+  ],
+  "widgets": {
+    "zone-activity-state": {
+      "name": {
+        "en": "Zone activity state",
+        "nl": "Zone activiteit status"
+      },
+      "height": 80,
+      "settings": [
+        {
+          "id": "zone",
+          "type": "autocomplete",
+          "title": {
+            "en": "Zone"
+          }
+        }
+      ],
+      "api": {
+        "getZone": {
+          "method": "GET",
+          "path": "/getZone"
+        },
+        "log": {
+          "method": "POST",
+          "path": "/log"
+        },
+        "getTimeAndLanguage": {
+          "method": "GET",
+          "path": "/getTimeAndLanguage"
+        }
+      },
+      "id": "zone-activity-state"
+    },
+    "zones-activity-list": {
+      "name": {
+        "en": "Zones activity list"
+      },
+      "settings": [
+        {
+          "id": "zone",
+          "type": "autocomplete",
+          "title": {
+            "en": "Zone"
+          }
+        },
+        {
+          "id": "limit",
+          "type": "number",
+          "title": {
+            "en": "Limit",
+            "nl": "Limiet"
+          },
+          "value": 25,
+          "hint": {
+            "en": "Amount of zones",
+            "nl": "Aantal zones"
+          },
+          "min": 2
+        },
+        {
+          "id": "includeRoot",
+          "type": "checkbox",
+          "value": true,
+          "title": {
+            "en": "Include the selected zone",
+            "nl": "Inclusief de geselecteerde zone"
+          }
+        },
+        {
+          "id": "sort",
+          "type": "dropdown",
+          "title": {
+            "en": "Sort by",
+            "nl": "Sorteren op"
+          },
+          "value": "default",
+          "values": [
+            {
+              "id": "default",
+              "title": {
+                "en": "Default view",
+                "nl": "Standaard weergave"
+              }
+            },
+            {
+              "id": "activity",
+              "title": {
+                "en": "Activity",
+                "nl": "Activiteit"
+              }
+            }
+          ]
+        }
+      ],
+      "api": {
+        "getZones": {
+          "method": "POST",
+          "path": "/getZones"
+        },
+        "log": {
+          "method": "POST",
+          "path": "/log"
+        },
+        "getTimeAndLanguage": {
+          "method": "GET",
+          "path": "/getTimeAndLanguage"
+        }
+      },
+      "id": "zones-activity-list"
+    }
+  }
 }

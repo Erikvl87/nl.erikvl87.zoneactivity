@@ -1,0 +1,30 @@
+{
+	"name": {
+		"en": "Zone activity state",
+		"nl": "Zone activiteit status"
+	},
+	"height": 80,
+	"settings": [
+		{
+			"id": "zone",
+			"type": "autocomplete",
+			"title": {
+				"en": "Zone"
+			}
+		}
+	],
+	"api": {
+		"getZone": {
+			"method": "GET",
+			"path": "/getZone"
+		},
+		"log": {
+			"method": "POST",
+			"path": "/log"
+		},
+		"getTimeAndLanguage": {
+			"method": "GET",
+			"path": "/getTimeAndLanguage"
+		}
+	}
+}

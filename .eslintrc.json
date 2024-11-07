@@ -29,7 +29,8 @@
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "error", // Enforce explicit return type
-    "@typescript-eslint/no-floating-promises": "error", // Enforce awaiting async functions
+    "@typescript-eslint/no-floating-promises": "error", // Enforce awaiting async functions,
+    "@typescript-eslint/no-explicit-any": "warn", // Warn on explicit any
     "indent": [
       "error",
       "tab"
