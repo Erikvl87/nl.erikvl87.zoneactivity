@@ -1,14 +1,14 @@
 import Homey from 'homey';
 import { HomeyAPI, ExtendedHomeyAPIV3Local } from 'homey-api';
 import { Log } from 'homey-log';
-import ConditionCardAnyDeviceTurnedOn from './lib/ConditionCardAnyDeviceTurnedOn';
-import ConditionCardZoneInactiveForMinutes from './lib/ConditionCardZoneInactiveForMinutes';
-import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities';
-import ConditionCardZoneActiveForMinutes from './lib/ConditionCardZoneActiveForMinutes';
-import TriggerCardAnyDeviceTurnedOn from './lib/TriggerCardAnyDeviceOnOff';
-import ZonesDb from './lib/ZonesDb';
+import ConditionCardAnyDeviceTurnedOn from './lib/ConditionCardAnyDeviceTurnedOn.mjs';
+import ConditionCardZoneInactiveForMinutes from './lib/ConditionCardZoneInactiveForMinutes.mjs';
+import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities.mjs';
+import ConditionCardZoneActiveForMinutes from './lib/ConditionCardZoneActiveForMinutes.mjs';
+import TriggerCardAnyDeviceTurnedOn from './lib/TriggerCardAnyDeviceOnOff.mjs';
+import ZonesDb from './lib/ZonesDb.mjs';
 
-class ZoneActivity extends Homey.App {
+export default class ZoneActivity extends Homey.App {
 	/**
 	 * The Homey Web API.
 	 * @see https://athombv.github.io/node-homey-api/HomeyAPIV3Local.html
@@ -20,7 +20,7 @@ class ZoneActivity extends Homey.App {
 	 * Initialize the Zone Activity app.
 	 * @returns {Promise<void>} A promise that resolves when the app has been initialized.
 	 */
-	async onInit(): Promise<void> {
+	override async onInit(): Promise<void> {
 		this.homeyLog = new Log({ homey: this.homey });
 		this.log(`${this.constructor.name} has been initialized`);
 
@@ -36,5 +36,3 @@ class ZoneActivity extends Homey.App {
 		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log, this.error);
 	}
 }
-
-module.exports = ZoneActivity;

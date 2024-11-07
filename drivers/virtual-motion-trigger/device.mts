@@ -1,13 +1,13 @@
 import Homey from 'homey';
 
-export class VirtualMotionDevice extends Homey.Device {
+export default class VirtualMotionDevice extends Homey.Device {
 	scheduledTurnOffTimeoutId: NodeJS.Timeout | undefined;
 	triggerCardAlarmChanged = this.homey.flow.getDeviceTriggerCard('alarm-changed');
 
 	/**
 	 * onInit is called when the device is initialized.
 	 */
-	async onInit(): Promise<void> {
+	override async onInit(): Promise<void> {
 		this.log(`${this.constructor.name} has been initialized`);
 		this.registerMaintenanceListeners();
 		await this.registerCapabilityListeners();
@@ -85,7 +85,7 @@ export class VirtualMotionDevice extends Homey.Device {
 	/**
 	 * onSettings is called when the user changes the device settings.
 	 */
-	async onSettings(settings: {
+	override async onSettings(settings: {
 		oldSettings: { [key: string]: boolean | string | number | undefined | null };
 		newSettings: { [key: string]: boolean | string | number | undefined | null };
 		changedKeys: string[];
@@ -97,7 +97,7 @@ export class VirtualMotionDevice extends Homey.Device {
 	/**
 	 * onAdded is called when the user adds the device, called just after pairing.
 	 */
-	async onAdded(): Promise<void> {
+	override async onAdded(): Promise<void> {
 		this.log('Device added', { name: this.getName(), data: await this.getData() })
 		await this.setCapabilityValue('alarm_motion', false);
 		await this.setCapabilityValue('onoff', true);
@@ -106,7 +106,7 @@ export class VirtualMotionDevice extends Homey.Device {
 	/**
 	 * onDeleted is called when the user deleted the device.
 	 */
-	async onDeleted(): Promise<void> {
+	override async onDeleted(): Promise<void> {
 		this.log(`${this.constructor.name} has been deleted`);
 	}
 
@@ -164,5 +164,3 @@ export class VirtualMotionDevice extends Homey.Device {
 			).catch(this.error), seconds * 1000);
 	}
 }
-
-module.exports = VirtualMotionDevice;

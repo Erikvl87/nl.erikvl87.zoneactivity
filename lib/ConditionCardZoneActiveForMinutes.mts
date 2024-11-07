@@ -1,8 +1,8 @@
 import { ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
-import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
+import handleZoneAutocomplete from "../utils/handleZoneAutocomplete.mjs";
 import { FlowCardCondition } from "homey";
-import ZonesDb from "./ZonesDb";
+import ZonesDb from "./ZonesDb.mjs";
 
 export default class ConditionCardZoneActiveForMinutes {
 	private static instance: ConditionCardZoneActiveForMinutes | null = null;

@@ -1,8 +1,8 @@
 import { FlowCard, FlowCardCondition } from "homey";
 import { ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
-import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
-import ZonesDb from "./ZonesDb";
+import handleZoneAutocomplete from "../utils/handleZoneAutocomplete.mjs";
+import ZonesDb from "./ZonesDb.mjs";
 import HomeyLib from "homey-lib";
 
 export default class ConditionCardEvaluateSensorCapabilities {

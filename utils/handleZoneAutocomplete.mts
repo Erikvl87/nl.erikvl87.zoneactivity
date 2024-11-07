@@ -1,8 +1,8 @@
 import { FlowCard } from "homey";
 import { ExtendedZone } from "homey-api";
 import { ArgumentAutocompleteResults } from "homey/lib/FlowCard";
-import getIconForZone from "./getIconForZone";
-import ZonesDb from "../lib/ZonesDb";
+import getIconForZone from "./getIconForZone.mjs";
+import ZonesDb from "../lib/ZonesDb.mjs";
 
 export default async function handleZoneAutocomplete(query: string, zonesDb: ZonesDb): Promise<FlowCard.ArgumentAutocompleteResults> {
 	const results: ArgumentAutocompleteResults = [];

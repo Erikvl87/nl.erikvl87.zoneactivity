@@ -1,9 +1,9 @@
 import { ExtendedDevice, ExtendedDeviceCapability, ExtendedHomeyAPIV3Local } from "homey-api";
 import Homey from "homey/lib/Homey";
 import { FlowCard, FlowCardTrigger } from "homey";
-import handleZoneAutocomplete from "../utils/handleZoneAutocomplete";
-import ZonesDb from "./ZonesDb";
-import CustomError from "./CustomError";
+import handleZoneAutocomplete from "../utils/handleZoneAutocomplete.mjs";
+import ZonesDb from "./ZonesDb.mjs";
+import CustomError from "./CustomError.mjs";
 import HomeyLib from "homey-lib";
 
 export default class TriggerCardAnyDeviceTurnedOn {

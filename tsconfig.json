@@ -1,19 +1,13 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": "./",
-    "outDir": ".homeybuild/",
+    "lib": ["DOM", "ESNext"],
+    "module": "Preserve",
+    "noImplicitOverride": true,
+    "noUncheckedSideEffectImports": true,
+    "outDir": ".homeybuild",
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-    "alwaysStrict": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
-  },
-  "include": [
-    "./**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+    "target": "ES2023"
+  }
 }

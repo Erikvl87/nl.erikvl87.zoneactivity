@@ -1,12 +1,12 @@
 import Homey from 'homey';
-import generateGuid from '../../utils/generateGuid';
-import { VirtualMotionDevice } from './device';
+import generateGuid from '../../utils/generateGuid.mjs';
+import type VirtualMotionDevice from './device.mjs';
 
-class VirtualMotionDriver extends Homey.Driver {
+export default class VirtualMotionDriver extends Homey.Driver {
 	/**
 	 * onInit is called when the driver is initialized.
 	 */
-	async onInit(): Promise<void> {
+	override async onInit(): Promise<void> {
 		this.log(`${this.constructor.name} has been initialized`);
 		this.registerCardListeners();
 	}
@@ -44,7 +44,7 @@ class VirtualMotionDriver extends Homey.Driver {
 	 * onPairListDevices is called when a user is adding a device and the 'list_devices' view is called.
 	 * This should return an array with the data of devices that are available for pairing.
 	 */
-	async onPairListDevices(): Promise<Array<unknown>> {
+	override async onPairListDevices(): Promise<Array<unknown>> {
 		return [{
 			name: 'Virtual motion trigger',
 			data: {
@@ -56,4 +56,3 @@ class VirtualMotionDriver extends Homey.Driver {
 	}
 }
 
-module.exports = VirtualMotionDriver;
