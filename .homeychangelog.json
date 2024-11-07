@@ -55,5 +55,8 @@
   },
   "1.6.3": {
     "en": "Fixed the order of zones in autocomplete fields"
+  },
+  "2.0.0": {
+    "en": "Added dashboard widgets to check for zone activity"
   }
 }
