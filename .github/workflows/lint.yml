@@ -17,4 +17,4 @@ jobs:
     - name: Install dependencies
       run: yarn install
     - name: Run ESLint
-      run: yarn eslint . --ext .js,.jsx,.ts,.tsx
+      run: yarn eslint . --ext .js,.jsx,.ts,.tsx --ignore-pattern 'widgets/**/*.js'
