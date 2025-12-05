@@ -3,15 +3,15 @@ import type Homey from "homey/lib/Homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete.mjs";
 import ZonesDb from "./ZonesDb.mjs";
 import getIconForZone, { getZoneImageSource } from "./../utils/getIconForZone.mjs";
+import { Widget } from "homey";
 
 export default class WidgetZonesActivityList {
 
 	private static instance: WidgetZonesActivityList | null = null;
 
-	widget: unknown;
+	widget: Widget;
 
 	private constructor(private homey: Homey, private homeyApi: ExtendedHomeyAPIV3Local, private zonesDb: ZonesDb, private log: (...args: unknown[]) => void, private error: (...args: unknown[]) => void) {
-		// @ts-expect-error Ignore the error for the non-existing method / property
 		this.widget = this.homey.dashboards.getWidget('zones-activity-list');
 	}
 
@@ -24,7 +24,6 @@ export default class WidgetZonesActivityList {
 	}
 
 	private async setup(): Promise<void> {
-		// @ts-expect-error Ignore the error for the non-existing method / property
 		this.widget.registerSettingAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
 		this.homeyApi.zones.on('zone.create', async (_zone: ExtendedZone) => this.homey.api.realtime(`refresh-widget-zones-activity-list`, {}));
 		this.homeyApi.zones.on('zone.update', async (_zone: ExtendedZone) => this.homey.api.realtime(`refresh-widget-zones-activity-list`, {}));

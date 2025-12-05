@@ -26,18 +26,19 @@ export default class ConditionCardZoneActiveForMinutes {
 				throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
 			const now = new Date();
+			const activeLastUpdated = new Date(zone.activeLastUpdated);
 			const checkIsActive = args.state === 'active';
 
 			if(checkIsActive) {
 				const isZoneActive = (zone.activeLastUpdated !== null && zone.active);
-				const activeForGivenMinutes = (now.getTime() - new Date(zone.activeLastUpdated).getTime()) >= args.minutes * 60 * 1000;
+				const activeForGivenMinutes = (now.getTime() - activeLastUpdated.getTime()) >= args.minutes * 60 * 1000;
 				const isActive = isZoneActive && activeForGivenMinutes;
 				this.log(`Zone '${zone.name}' is considered ${isActive ? 'active' : 'inactive'}.`, { args, zone });
 				return isActive;
 
 			} else {
 				const isZoneInactive = !(zone.activeLastUpdated === null ? false : zone.active);
-				const lastUpdatedWithinGivenMinutes = (now.getTime() - new Date(zone.activeLastUpdated).getTime()) >= args.minutes * 60 * 1000;
+				const lastUpdatedWithinGivenMinutes = (now.getTime() - activeLastUpdated.getTime()) >= args.minutes * 60 * 1000;
 				const isInactive = isZoneInactive && lastUpdatedWithinGivenMinutes;
 				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone });
 				return isInactive;
