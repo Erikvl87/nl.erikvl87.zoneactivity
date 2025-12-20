@@ -58,5 +58,8 @@
   },
   "2.0.0": {
     "en": "Added dashboard widgets to check for zone activity"
+  },
+  "2.1.0": {
+    "en": "Fixed the card logic to correctly evaluate active and inactive zones where multiple devices contribute to a zone’s active state"
   }
 }
