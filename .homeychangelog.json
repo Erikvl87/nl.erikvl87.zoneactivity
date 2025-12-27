@@ -61,5 +61,8 @@
   },
   "2.1.0": {
     "en": "Fixed the card logic to correctly evaluate active and inactive zones where multiple devices contribute to a zone’s active state"
+  },
+  "2.1.1": {
+    "en": "Fixed an issue for checking inactive zones"
   }
 }
