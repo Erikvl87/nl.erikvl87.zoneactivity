@@ -40,9 +40,9 @@ export default class ConditionCardZoneActiveForMinutes {
 							: oldest,
 					{ originId: null as string | null, activeLastUpdated: now }
 				);
-				const { originId: oldestOriginId, activeLastUpdated } = oldestOrigin;
+				const { originId: _oldestOriginId, activeLastUpdated } = oldestOrigin;
 
-				let activeForGivenMinutes = activeLastUpdated.getTime() >= args.minutes * 60 * 1000;
+				const activeForGivenMinutes = activeLastUpdated.getTime() >= args.minutes * 60 * 1000;
 				const isActive = isZoneActive && activeForGivenMinutes;
 				this.log(`Zone '${zone.name}' is considered ${isActive ? 'active' : 'inactive'}.`, { args, zone, originsData, oldestOrigin });
 				return isActive;
@@ -50,9 +50,10 @@ export default class ConditionCardZoneActiveForMinutes {
 			} else {
 				const isZoneInactive = !(zone.activeLastUpdated === null ? false : zone.active);
 				const activeLastUpdated = new Date(zone.activeLastUpdated);
-				const lastUpdatedWithinGivenMinutes = activeLastUpdated.getTime() >= args.minutes * 60 * 1000;
+				const lastUpdateInMinutes = (now.getTime() - activeLastUpdated.getTime()) / (60 * 1000);
+				const lastUpdatedWithinGivenMinutes = lastUpdateInMinutes >= args.minutes;
 				const isInactive = isZoneInactive && lastUpdatedWithinGivenMinutes;
-				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone, activeLastUpdated });
+				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone, activeLastUpdated, lastUpdateInMinutes });
 				return isInactive;
 			}
 		});
