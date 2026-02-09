@@ -64,5 +64,8 @@
   },
   "2.1.1": {
     "en": "Fixed an issue for checking inactive zones"
+  },
+  "2.1.2": {
+    "en": "Added additional logging to investigate cache issues"
   }
 }
