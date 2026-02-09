@@ -22,6 +22,9 @@ export default class ConditionCardZoneActiveForMinutes {
 	private async setup(): Promise<void> {
 		this.conditionCard.registerRunListener(async (args, _state) => {
 			const zone = await this.zonesDb.getZone(args.zone.id);
+			const dbLastUpdated = await this.zonesDb.getLastUpdated();
+			const uncachedZone = await this.homeyApi.zones.getZone({ id: args.zone.id });
+
 			if (zone == null)
 				throw new Error(`Zone with id '${args.zone.id}' not found.`);
 
@@ -44,7 +47,7 @@ export default class ConditionCardZoneActiveForMinutes {
 
 				const activeForGivenMinutes = activeLastUpdated.getTime() >= args.minutes * 60 * 1000;
 				const isActive = isZoneActive && activeForGivenMinutes;
-				this.log(`Zone '${zone.name}' is considered ${isActive ? 'active' : 'inactive'}.`, { args, zone, originsData, oldestOrigin });
+				this.log(`Zone '${zone.name}' is considered ${isActive ? 'active' : 'inactive'}.`, { args, zone, originsData, oldestOrigin, lastUpdated: dbLastUpdated, zone2: uncachedZone });
 				return isActive;
 
 			} else {
@@ -53,7 +56,7 @@ export default class ConditionCardZoneActiveForMinutes {
 				const lastUpdateInMinutes = (now.getTime() - activeLastUpdated.getTime()) / (60 * 1000);
 				const lastUpdatedWithinGivenMinutes = lastUpdateInMinutes >= args.minutes;
 				const isInactive = isZoneInactive && lastUpdatedWithinGivenMinutes;
-				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone, activeLastUpdated, lastUpdateInMinutes });
+				this.log(`Zone '${zone.name}' is considered ${isInactive ? 'inactive' : 'active'}.`, { args, zone, activeLastUpdated, lastUpdateInMinutes, lastUpdated: dbLastUpdated,zone2: uncachedZone });
 				return isInactive;
 			}
 		});

@@ -7,6 +7,7 @@ export default class ZonesDb {
 	private zones: Map<string, ExtendedZone> = new Map();
 	private parentMap: Map<string, ExtendedZone[]> = new Map();
 	private childMap: Map<string, ExtendedZone[]> = new Map();
+	private lastUpdated: Date | null = null;
 	private isUpdating: boolean = false;
 
 	private constructor(private homeyApi: ExtendedHomeyAPIV3Local, private log: (...args: unknown[]) => void) {
@@ -24,14 +25,19 @@ export default class ZonesDb {
 
 	private async setup(): Promise<void> {
 		await this.homeyApi.zones.connect();
-		this.homeyApi.zones.on('zone.create', async (_zone: ExtendedZone) => await this.compute());
-		this.homeyApi.zones.on('zone.update', async (_zone: ExtendedZone) => await this.compute());
-		this.homeyApi.zones.on('zone.delete', async (_zone: ExtendedZone) => await this.compute());
+		const callback = async (eventName: string, _zone: ExtendedZone) => {
+			this.log(`Received event '${eventName}' for zone '${_zone.name}' (id: ${_zone.id}). Updating zones database...`, { eventName, zone: _zone });
+			await this.compute();
+		};
+		this.homeyApi.zones.on('zone.create', async (_zone: ExtendedZone) => callback('zone.create', _zone));
+		this.homeyApi.zones.on('zone.update', async (_zone: ExtendedZone) => callback('zone.update', _zone));
+		this.homeyApi.zones.on('zone.delete', async (_zone: ExtendedZone) => callback('zone.delete', _zone));
 		await this.compute();
 	}
 
 	private async compute(): Promise<void> {
 		this.isUpdating = true;
+		this.lastUpdated = new Date();
 		const zones = await this.homeyApi.zones.getZones();
 		const zoneArray = Object.values(zones);
 		this.zones.clear();
@@ -142,5 +148,12 @@ export default class ZonesDb {
 			await new Promise(resolve => setTimeout(resolve, 100));
 		}
 		return this.childMap.get(zoneId) || [];
+	}
+
+	public async getLastUpdated(): Promise<Date | null> {
+		while (this.isUpdating) {
+			await new Promise(resolve => setTimeout(resolve, 100));
+		}
+		return this.lastUpdated;
 	}
 }
