@@ -67,5 +67,8 @@
   },
   "2.1.2": {
     "en": "Added additional logging to investigate cache issues"
+  },
+  "2.1.3": {
+    "en": "Added a workaround for potentially stale zone cache information that could lead to incorrect zone activity state."
   }
 }
