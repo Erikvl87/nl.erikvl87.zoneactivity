@@ -1,6 +1,8 @@
 import { ExtendedHomeyAPIV3Local, ExtendedZone } from "homey-api";
 import Homey from "homey/lib/Homey";
 import handleZoneAutocomplete from "../utils/handleZoneAutocomplete.mjs";
+import handleIgnoredZonesAutocomplete, { getSelectedZoneIds } from "../utils/handleIgnoredZonesAutocomplete.mjs";
+import getZoneActivityIgnoringZones from "../utils/getZoneActivityIgnoringZones.mjs";
 import { FlowCardCondition } from "homey";
 import ZonesDb from "./ZonesDb.mjs";
 
@@ -33,6 +35,15 @@ export default class ConditionCardZoneActiveForMinutes {
 			const now = new Date();
 			const checkIsActive = args.state === 'active';
 
+			const ignoredZoneIds = getSelectedZoneIds(args.exclude);
+			if (ignoredZoneIds.length > 0) {
+				const { active, since, remainingZones } = await getZoneActivityIgnoringZones(zone, ignoredZoneIds, this.homeyApi, this.zonesDb);
+				const minutesInState = (now.getTime() - since.getTime()) / (60 * 1000);
+				const isInState = active === checkIsActive && minutesInState >= args.minutes;
+				this.log(`Zone '${zone.name}' ignoring ${ignoredZoneIds.length} zone(s) is ${active ? 'active' : 'inactive'} for ${minutesInState.toFixed(1)} minutes.`, { args, zone, since, remainingZones: remainingZones.map(remainingZone => remainingZone.name), lastUpdated: dbLastUpdated });
+				return isInState;
+			}
+
 			if(checkIsActive) {
 				const isZoneActive = (zone.activeLastUpdated !== null && zone.active);
 				const originsData = await this.getOriginsData(zone);
@@ -64,6 +75,7 @@ export default class ConditionCardZoneActiveForMinutes {
 		});
 
 		this.conditionCard.registerArgumentAutocompleteListener('zone', async (query: string) => await handleZoneAutocomplete(query, this.zonesDb));
+		this.conditionCard.registerArgumentAutocompleteListener('exclude', async (query: string, args) => await handleIgnoredZonesAutocomplete(query, args, this.homey, this.zonesDb));
 	}
 
 	private async getOriginsData(zone: ExtendedZone, data: { [key: string]: Date } = {}) : Promise<{ [key: string]: Date }>{
