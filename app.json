@@ -211,12 +211,12 @@
           "nl": "De zone is actief"
         },
         "titleFormatted": {
-          "en": "The zone [[zone]] !{{is|is not}} [[state]] for at least [[minutes]] minutes",
-          "nl": "De zone [[zone]] !{{is|is niet}} [[state]] voor minstens [[minutes]] minuten"
+          "en": "The zone [[zone]] !{{is|is not}} [[state]] for at least [[minutes]] minutes, ignoring [[exclude]]",
+          "nl": "De zone [[zone]] !{{is|is niet}} [[state]] voor minstens [[minutes]] minuten, zonder [[exclude]]"
         },
         "hint": {
-          "en": "This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time.",
-          "nl": "Deze voorwaarde zal voldoen wanneer er (geen) activiteit is gedetecteerd in een specifieke zone voor een specifieke hoeveelheid tijd."
+          "en": "This condition will pass when (no) activity has been detected in a specific zone for a specific amount of time. Optionally, zones inside it can be ignored, so activity there does not count.",
+          "nl": "Deze voorwaarde zal voldoen wanneer er (geen) activiteit is gedetecteerd in een specifieke zone voor een specifieke hoeveelheid tijd. Optioneel kunnen zones daarbinnen genegeerd worden, zodat activiteit daar niet meetelt."
         },
         "args": [
           {
@@ -260,6 +260,19 @@
                 }
               }
             ]
+          },
+          {
+            "type": "autocomplete",
+            "name": "exclude",
+            "required": false,
+            "title": {
+              "en": "zones to ignore",
+              "nl": "te negeren zones"
+            },
+            "placeholder": {
+              "en": "(optional)",
+              "nl": "(optioneel)"
+            }
           }
         ],
         "id": "zone-active-for-minutes"

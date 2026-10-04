@@ -12,5 +12,8 @@
 	"widget_error": "An error occurred",
 	"contact_dev": "Please contact the developer",
 	"zone_not_found": "Zone not found",
-	"never": "Never"
+	"never": "Never",
+	"no_zone_ignored": "— no zone ignored —",
+	"add_zone": "add __zone__",
+	"remove_zone": "remove __zone__"
 }

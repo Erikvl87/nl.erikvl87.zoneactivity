@@ -12,5 +12,8 @@
 	"widget_error": "Er is een fout is opgetreden",
 	"contact_dev": "Neem contact op met de ontwikkelaar",
 	"zone_not_found": "Zone niet gevonden",
-	"never": "Nooit"
+	"never": "Nooit",
+	"no_zone_ignored": "— geen zone genegeerd —",
+	"add_zone": "__zone__ erbij",
+	"remove_zone": "__zone__ eruit"
 }
