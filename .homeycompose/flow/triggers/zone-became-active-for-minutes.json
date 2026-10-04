@@ -1,0 +1,71 @@
+{
+	"title": {
+		"en": "The zone became active",
+		"nl": "De zone werd actief"
+	},
+	"titleFormatted": {
+		"en": "The zone [[zone]] has been [[state]] for [[minutes]] minutes, ignoring [[exclude]]",
+		"nl": "De zone [[zone]] is [[minutes]] minuten [[state]], zonder [[exclude]]"
+	},
+	"hint": {
+		"en": "Triggered once when a zone has been active or inactive for the given number of minutes (0 for the moment it happens). Optionally, zones inside it can be ignored, so activity there does not count. A state that was already reached when the app started or the Flow was saved does not trigger.",
+		"nl": "Wordt één keer aangeroepen wanneer een zone het opgegeven aantal minuten actief of inactief is (0 voor het moment zelf). Optioneel kunnen zones daarbinnen genegeerd worden, zodat activiteit daar niet meetelt. Een toestand die al bereikt was toen de app startte of de Flow werd opgeslagen, roept niets aan."
+	},
+	"args": [
+		{
+			"type": "autocomplete",
+			"name": "zone",
+			"values": [],
+			"placeholder": {
+				"en": "zone",
+				"nl": "zone"
+			}
+		},
+		{
+			"type": "number",
+			"name": "minutes",
+			"placeholder": {
+				"en": "10"
+			},
+			"min": 0,
+			"step": 1
+		},
+		{
+			"type": "dropdown",
+			"name": "state",
+			"title": {
+				"en": "state",
+				"nl": "status"
+			},
+			"values": [
+				{
+					"id": "active",
+					"label": {
+						"en": "active",
+						"nl": "actief"
+					}
+				},
+				{
+					"id": "inactive",
+					"label": {
+						"en": "inactive",
+						"nl": "inactief"
+					}
+				}
+			]
+		},
+		{
+			"type": "autocomplete",
+			"name": "exclude",
+			"required": false,
+			"title": {
+				"en": "zones to ignore",
+				"nl": "te negeren zones"
+			},
+			"placeholder": {
+				"en": "(optional)",
+				"nl": "(optioneel)"
+			}
+		}
+	]
+}

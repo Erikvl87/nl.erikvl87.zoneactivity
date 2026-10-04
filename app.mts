@@ -5,6 +5,7 @@ import ConditionCardAnyDeviceTurnedOn from './lib/ConditionCardAnyDeviceTurnedOn
 import ConditionCardEvaluateSensorCapabilities from './lib/ConditionCardEvaluateSensorCapabilities.mjs';
 import ConditionCardZoneActiveForMinutes from './lib/ConditionCardZoneActiveForMinutes.mjs';
 import TriggerCardAnyDeviceTurnedOn from './lib/TriggerCardAnyDeviceOnOff.mjs';
+import TriggerCardZoneBecameActiveForMinutes from './lib/TriggerCardZoneBecameActiveForMinutes.mjs';
 import ZonesDb from './lib/ZonesDb.mjs';
 import WidgetZoneActivityState from './lib/WidgetZoneActivityState.mjs';
 import WidgetZonesActivityList from './lib/WidgetZonesActivityList.mjs';
@@ -37,6 +38,7 @@ export default class ZoneActivity extends Homey.App {
 		await ConditionCardZoneActiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 		await ConditionCardEvaluateSensorCapabilities.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 		await TriggerCardAnyDeviceTurnedOn.initialize(this.homey, this.homeyApi, zonesDb, this.log, this.error);
+		await TriggerCardZoneBecameActiveForMinutes.initialize(this.homey, this.homeyApi, zonesDb, this.log);
 		this.widgetZoneActivityState = await WidgetZoneActivityState.initialize(this.homey, this.homeyApi, zonesDb, this.log, this.error);
 		this.widgetZonesActivityList = await WidgetZonesActivityList.initialize(this.homey, this.homeyApi, zonesDb, this.log, this.error);
 	}
